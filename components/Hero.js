@@ -57,14 +57,14 @@ export default function Hero() {
             <div className="relative w-[180px] h-[230px] sm:w-[200px] sm:h-[260px] overflow-hidden">
 
               {/* Main Photo - Clear, no blur */}
-              <Image src="/portfolio.jpg" alt="Harun Shaikh" fill className="object-cover" />
+              <Image src="/portfolio.jpg" alt="Harun Shaikh" fill priority sizes="(max-width: 640px) 180px, 200px" className="object-cover" />
 
               {/* RGB Chromatic Aberration */}
               <div className="absolute inset-0 overflow-hidden mix-blend-screen">
-                <Image src="/portfolio.jpg" alt="" fill className="object-cover opacity-30" style={{ transform: 'translate(-3px, 0)', filter: 'url(#r)' }} />
+                <Image src="/portfolio.jpg" alt="" fill sizes="200px" className="object-cover opacity-30" style={{ transform: 'translate(-3px, 0)', filter: 'url(#r)' }} />
               </div>
               <div className="absolute inset-0 overflow-hidden mix-blend-screen">
-                <Image src="/portfolio.jpg" alt="" fill className="object-cover opacity-20" style={{ transform: 'translate(3px, 0)', filter: 'hue-rotate(180deg)' }} />
+                <Image src="/portfolio.jpg" alt="" fill sizes="200px" className="object-cover opacity-20" style={{ transform: 'translate(3px, 0)', filter: 'hue-rotate(180deg)' }} />
               </div>
 
               {/* Horizontal Interference Lines - IGI style */}
@@ -128,7 +128,7 @@ export default function Hero() {
                 }}
                 transition={{ duration: 0.3, repeat: Infinity, repeatType: 'loop' }}
               >
-                <Image src="/portfolio.jpg" alt="" fill className="object-cover opacity-10 mix-blend-difference" />
+                <Image src="/portfolio.jpg" alt="" fill sizes="200px" className="object-cover opacity-10 mix-blend-difference" />
               </motion.div>
 
               {/* SIGNAL DROP - Random blackout */}
@@ -144,7 +144,7 @@ export default function Hero() {
                 animate={{ x: [0, 5, -5, 0], opacity: [0, 0.4, 0.4, 0] }}
                 transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
               >
-                <Image src="/portfolio.jpg" alt="" fill className="object-cover" style={{ filter: 'hue-rotate(120deg) saturate(3)' }} />
+                <Image src="/portfolio.jpg" alt="" fill sizes="200px" className="object-cover" style={{ filter: 'hue-rotate(120deg) saturate(3)' }} />
               </motion.div>
 
               {/* SIGNAL LOST text - occasional flash */}

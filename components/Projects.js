@@ -299,7 +299,7 @@ function CyberCard({ project, index }) {
                 style={{
                   color: project.color,
                   border: `1px solid ${project.color}50`,
-                  background: hovered ? `${project.color}15` : 'transparent'
+                  background: hovered ? `${project.color}15` : 'rgba(0,0,0,0)'
                 }}
                 initial={{ opacity: 0, scale: 0.5, y: 10 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}

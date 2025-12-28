@@ -144,7 +144,7 @@ export default function ServicesSection() {
                                     animate={{
                                         rotate: isActive ? 90 : 0,
                                         borderColor: isHovered ? '#00ff41' : '#222',
-                                        background: isActive ? '#00ff41' : 'transparent'
+                                        background: isActive ? '#00ff41' : 'rgba(0,0,0,0)'
                                     }}
                                 >
                                     <span className={`text-lg transition-colors ${isActive ? 'text-black' : isHovered ? 'text-[#00ff41]' : 'text-[#333]'}`}>
