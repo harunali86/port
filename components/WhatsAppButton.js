@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export default function WhatsAppButton() {
     const phoneNumber = '918329320708';
@@ -7,10 +7,11 @@ export default function WhatsAppButton() {
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
     return (
-        <motion.a
+        <m.a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
+            aria-label="Chat on WhatsApp"
             className="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center shadow-lg"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
@@ -27,12 +28,12 @@ export default function WhatsAppButton() {
             </svg>
 
             {/* Pulse animation */}
-            <motion.div
+            <m.div
                 className="absolute inset-0 rounded-full bg-[#25D366]"
                 initial={{ opacity: 0.5, scale: 1 }}
                 animate={{ opacity: 0, scale: 1.5 }}
                 transition={{ duration: 1.5, repeat: Infinity }}
             />
-        </motion.a>
+        </m.a>
     );
 }

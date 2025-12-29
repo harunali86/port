@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
 import CountUp from "react-countup";
 import { useState, useEffect } from "react";
 import Lottie from "lottie-react";
@@ -74,7 +74,7 @@ function CyberCard({ project, index }) {
   }, []);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 60, rotateX: -10 }}
       whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
       viewport={{ once: true }}
@@ -88,7 +88,7 @@ function CyberCard({ project, index }) {
       }}
     >
       {/* Animated neon glow */}
-      <motion.div
+      <m.div
         className="absolute -inset-[2px] rounded-lg"
         style={{ background: project.color, filter: 'blur(10px)' }}
         animate={{ opacity: hovered ? 0.6 : 0 }}
@@ -106,7 +106,7 @@ function CyberCard({ project, index }) {
       >
         {/* Animated top bar */}
         <div className="h-[2px] w-full relative overflow-hidden" style={{ background: project.color }}>
-          <motion.div
+          <m.div
             className="absolute inset-0 bg-white"
             animate={{ x: ['-100%', '200%'] }}
             transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
@@ -119,7 +119,7 @@ function CyberCard({ project, index }) {
           <div className="flex items-center gap-3">
             <div className="flex gap-1.5">
               {[0, 1, 2].map(i => (
-                <motion.div
+                <m.div
                   key={i}
                   className="w-2.5 h-2.5 rounded-full"
                   style={{ background: i === 0 ? '#ff5f56' : i === 1 ? '#ffbd2e' : '#27ca40' }}
@@ -131,17 +131,17 @@ function CyberCard({ project, index }) {
                 />
               ))}
             </div>
-            <motion.span
+            <m.span
               className="text-xs font-mono"
               style={{ color: project.color }}
               animate={{ opacity: [0.5, 1, 0.5] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
               {project.id}
-            </motion.span>
+            </m.span>
           </div>
 
-          <motion.div
+          <m.div
             className="flex items-center gap-2 px-3 py-1 rounded"
             style={{ background: `${project.color}15`, border: `1px solid ${project.color}40` }}
             animate={hovered ? {
@@ -149,7 +149,7 @@ function CyberCard({ project, index }) {
             } : {}}
             transition={{ duration: 1, repeat: Infinity }}
           >
-            <motion.div
+            <m.div
               className="w-2 h-2 rounded-full"
               style={{ background: project.color }}
               animate={{ opacity: [1, 0.3, 1], scale: [1, 0.8, 1] }}
@@ -158,12 +158,12 @@ function CyberCard({ project, index }) {
             <span className="text-[10px] font-mono font-bold tracking-wider" style={{ color: project.color }}>
               {project.status}
             </span>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Image with effects */}
         <div className="relative h-36 overflow-hidden">
-          <motion.img
+          <m.img
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover"
@@ -182,7 +182,7 @@ function CyberCard({ project, index }) {
           {/* Hover scan effect */}
           <AnimatePresence>
             {hovered && (
-              <motion.div
+              <m.div
                 className="absolute left-0 right-0 h-[2px] pointer-events-none"
                 style={{ background: project.color, boxShadow: `0 0 20px ${project.color}` }}
                 initial={{ top: '0%', opacity: 0 }}
@@ -197,7 +197,7 @@ function CyberCard({ project, index }) {
           <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/30 to-transparent" />
 
           {/* Lottie Icon with pulse */}
-          <motion.div
+          <m.div
             className="absolute bottom-3 left-3 w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden"
             style={{
               background: 'rgba(10,10,10,0.95)',
@@ -215,19 +215,19 @@ function CyberCard({ project, index }) {
               autoplay={true}
               className="w-7 h-7"
             />
-          </motion.div>
+          </m.div>
 
           {/* Data readout */}
-          <motion.div
+          <m.div
             className="absolute top-3 left-3 font-mono text-[9px] space-y-1"
             style={{ color: project.color }}
             animate={{ opacity: hovered ? 1 : 0.5 }}
           >
-            <motion.div animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }}>
+            <m.div animate={{ opacity: [0.6, 1, 0.6] }} transition={{ duration: 2, repeat: Infinity }}>
               SYS.STATUS: ACTIVE
-            </motion.div>
+            </m.div>
             <div className="opacity-60">UPTIME: 99.9%</div>
-          </motion.div>
+          </m.div>
         </div>
 
         {/* Content */}
@@ -235,19 +235,19 @@ function CyberCard({ project, index }) {
           {/* Title with blinking cursor */}
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <motion.span
+              <m.span
                 className="text-xl font-mono"
                 style={{ color: project.color }}
                 animate={{ opacity: [1, 0.4, 1] }}
                 transition={{ duration: 0.6, repeat: Infinity }}
               >
                 &gt;
-              </motion.span>
+              </m.span>
               <h3 className="text-base font-bold font-mono text-white group-hover:tracking-wider group-hover:text-[var(--accent)] transition-all duration-300" style={{ '--accent': project.color }}>
                 {project.title}
               </h3>
               {hovered && (
-                <motion.span
+                <m.span
                   className="w-2 h-5"
                   style={{ background: project.color }}
                   animate={{ opacity: [1, 0, 1] }}
@@ -255,20 +255,20 @@ function CyberCard({ project, index }) {
                 />
               )}
             </div>
-            <p className="text-gray-600 text-xs font-mono leading-relaxed pl-6">{project.desc}</p>
+            <p className="text-gray-400 text-xs font-mono leading-relaxed pl-6">{project.desc}</p>
           </div>
 
           {/* Stats with animated borders */}
           <div className="grid grid-cols-3 gap-2">
             {project.stats.map((stat, i) => (
-              <motion.div
+              <m.div
                 key={stat.label}
                 className="relative p-2 text-center font-mono rounded overflow-hidden"
                 style={{ background: `${project.color}08`, border: `1px solid ${project.color}25` }}
                 whileHover={{ scale: 1.08, borderColor: project.color, boxShadow: `0 0 15px ${project.color}40` }}
               >
                 {/* Animated bottom line */}
-                <motion.div
+                <m.div
                   className="absolute bottom-0 left-0 h-[2px]"
                   style={{ background: project.color }}
                   initial={{ width: '0%' }}
@@ -285,15 +285,15 @@ function CyberCard({ project, index }) {
                     scrollSpyOnce
                   />
                 </div>
-                <div className="text-[8px] text-gray-600 tracking-wider">{stat.label}</div>
-              </motion.div>
+                <div className="text-[8px] text-gray-400 tracking-wider">{stat.label}</div>
+              </m.div>
             ))}
           </div>
 
           {/* Tech with pop animation */}
           <div className="flex flex-wrap gap-2">
             {project.tech.map((tech, i) => (
-              <motion.span
+              <m.span
                 key={tech}
                 className="px-2 py-1 text-[9px] font-mono font-semibold rounded cursor-default"
                 style={{
@@ -307,14 +307,14 @@ function CyberCard({ project, index }) {
                 transition={{ delay: 0.3 + i * 0.08 }}
               >
                 {tech}
-              </motion.span>
+              </m.span>
             ))}
           </div>
 
           {/* SVG Icons Row */}
           <div className="flex items-center gap-2">
             {project.icons?.map((icon, i) => (
-              <motion.img
+              <m.img
                 key={i}
                 src={icon}
                 alt=""
@@ -329,33 +329,33 @@ function CyberCard({ project, index }) {
           </div>
 
           {/* CTA with power effect */}
-          <motion.button
+          <m.button
             className="w-full py-2.5 font-mono text-xs tracking-wider flex items-center justify-center gap-2 rounded relative overflow-hidden"
             style={{ border: `2px solid ${project.color}`, color: project.color }}
             whileHover={{ background: `${project.color}20`, scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
           >
             {/* Sweep animation */}
-            <motion.div
+            <m.div
               className="absolute inset-0"
               style={{ background: `linear-gradient(90deg, transparent, ${project.color}30, transparent)` }}
               animate={hovered ? { x: ['-100%', '200%'] } : { x: '-100%' }}
               transition={{ duration: 1, repeat: Infinity }}
             />
             <span className="relative z-10 font-bold">[ ACCESS_PROJECT ]</span>
-            <motion.span
+            <m.span
               className="relative z-10"
               animate={hovered ? { x: [0, 6, 0] } : { x: 0 }}
               transition={{ duration: 0.4, repeat: Infinity }}
             >
               →
-            </motion.span>
-          </motion.button>
+            </m.span>
+          </m.button>
         </div>
 
         {/* Animated corner markers */}
         {[[0, 0], [1, 0], [0, 1], [1, 1]].map(([x, y], i) => (
-          <motion.div
+          <m.div
             key={i}
             className="absolute w-5 h-5"
             style={{
@@ -375,7 +375,7 @@ function CyberCard({ project, index }) {
 
         {/* Data stream */}
         <div className="absolute top-0 right-0 w-[2px] h-full overflow-hidden opacity-60">
-          <motion.div
+          <m.div
             className="w-full h-16"
             style={{ background: `linear-gradient(to bottom, transparent, ${project.color}, transparent)` }}
             animate={{ y: ['-100%', '500%'] }}
@@ -383,7 +383,7 @@ function CyberCard({ project, index }) {
           />
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -392,19 +392,19 @@ export default function ProjectsSection() {
     <section className="py-28 min-h-screen w-full flex flex-col items-center relative overflow-hidden bg-[#030303]">
 
       {/* Header */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: -30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         className="text-center mb-20 relative z-10"
       >
-        <motion.div
+        <m.div
           className="flex items-center justify-center gap-4 mb-6"
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
           transition={{ duration: 0.8 }}
         >
-          <motion.div
+          <m.div
             className="w-20 h-[2px]"
             style={{ background: 'linear-gradient(90deg, transparent, #00ff41)' }}
             animate={{ opacity: [0.5, 1, 0.5] }}
@@ -413,32 +413,32 @@ export default function ProjectsSection() {
           <span className="text-[#00ff41] text-xs font-mono tracking-[0.4em] px-4 py-2 border border-[#00ff41]/30 rounded">
             PROJECTS.exe
           </span>
-          <motion.div
+          <m.div
             className="w-20 h-[2px]"
             style={{ background: 'linear-gradient(90deg, #00ff41, transparent)' }}
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
           />
-        </motion.div>
+        </m.div>
 
         <h2 className="text-4xl sm:text-5xl md:text-7xl font-black font-mono mb-4">
           <span className="text-white">FEATURED</span>
-          <motion.span
+          <m.span
             className="text-[#00ff41]"
             animate={{ opacity: [1, 0.3, 1] }}
             transition={{ duration: 0.5, repeat: Infinity }}
-          >_</motion.span>
+          >_</m.span>
           <span className="text-[#00ff41]">WORK</span>
         </h2>
 
-        <motion.p
+        <m.p
           className="text-gray-700 text-sm font-mono"
           animate={{ opacity: [0.5, 1, 0.5] }}
           transition={{ duration: 3, repeat: Infinity }}
         >
           {'>'} Loading project database... <span className="text-[#00ff41]">COMPLETE</span>
-        </motion.p>
-      </motion.div>
+        </m.p>
+      </m.div>
 
       {/* Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 w-full max-w-7xl px-4 sm:px-6 relative z-10" style={{ perspective: '2000px' }}>
@@ -448,7 +448,7 @@ export default function ProjectsSection() {
       </div>
 
       {/* Bottom glow */}
-      <motion.div
+      <m.div
         initial={{ scaleX: 0 }}
         whileInView={{ scaleX: 1 }}
         viewport={{ once: true }}
@@ -456,12 +456,12 @@ export default function ProjectsSection() {
         className="mt-24 w-full max-w-5xl h-[2px] relative overflow-hidden"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#00ff41] to-transparent" />
-        <motion.div
+        <m.div
           className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-60"
           animate={{ x: ['-100%', '100%'] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
-      </motion.div>
+      </m.div>
     </section>
   );
 }

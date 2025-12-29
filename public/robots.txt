@@ -1,44 +1,4 @@
-# robots.txt - Optimized for SEO
-# https://harun-portfolio.vercel.app
-
 User-agent: *
 Allow: /
-
-# Disallow unnecessary paths
-Disallow: /api/
-Disallow: /_next/static/
-Disallow: /_next/image/
-
-# Allow search engines to index all public content
-Allow: /*.js$
-Allow: /*.css$
-Allow: /*.jpg$
-Allow: /*.png$
-Allow: /*.svg$
-Allow: /*.webp$
-Allow: /*.gif$
-
-# Sitemap location
-Sitemap: https://harun-portfolio.vercel.app/sitemap.xml
-
-# Crawl-delay for polite crawling (optional)
-Crawl-delay: 1
-
-# Specific bot rules for better indexing
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: GPTBot
-Allow: /
-
-User-agent: ChatGPT-User
-Allow: /
-
-User-agent: Google-Extended
-Allow: /
-
-User-agent: PerplexityBot
-Allow: /
+Disallow: /admin
+Sitemap: https://your-domain.com/sitemap.xml

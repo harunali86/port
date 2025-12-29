@@ -1,8 +1,10 @@
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { SiReact, SiNextdotjs, SiExpress, SiTailwindcss, SiMongodb, SiPostgresql, SiTypescript, SiPython } from "react-icons/si";
 import { PiGraduationCapDuotone } from "react-icons/pi";
 import { FaCloud } from "react-icons/fa";
-import Butterflies from "./Butterflies";
+import dynamic from "next/dynamic";
+
+const Butterflies = dynamic(() => import('./Butterflies'), { ssr: false });
 
 export default function About() {
   return (
@@ -11,7 +13,7 @@ export default function About() {
       <Butterflies />
 
       {/* Main about box */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ type: "spring", duration: 0.7 }}
@@ -22,11 +24,11 @@ export default function About() {
         <p className="text-white/85 text-base sm:text-lg mb-1 font-medium">
           <span className="font-semibold text-cyan-300">3+ years</span> crafting robust web UIs & scalable backends using <span className="font-semibold text-blue-400">React</span>, <span className="font-semibold text-cyan-400">Next.js</span>, <span className="text-emerald-300 font-semibold">Express.js</span>, <span className="text-fuchsia-300 font-semibold">Tailwind CSS</span>, <span className="text-green-300 font-semibold">MongoDB</span>, <span className="text-blue-200 font-semibold">PostgreSQL</span> & <span className="text-yellow-200 font-semibold">Python</span>. Obsessed with modern UI/UX, performance, and real problem solving. Clean, creative, reliable!
         </p>
-      </motion.div>
+      </m.div>
 
       <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8 mt-9 px-4">
         {/* Degree */}
-        <motion.div
+        <m.div
           whileHover={{ scale: 1.025, y: -6 }}
           transition={{ type: "spring", stiffness: 120, damping: 13 }}
           initial={{ opacity: 0, y: 24 }}
@@ -41,10 +43,10 @@ export default function About() {
             <Pill color="bg-fuchsia-400/70" text="78.78% Score" />
             <Pill color="bg-cyan-400/80" text="3+ Years Exp." />
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Skills */}
-        <motion.div
+        <m.div
           whileHover={{ scale: 1.025, y: -6 }}
           transition={{ type: "spring", stiffness: 120, damping: 13 }}
           initial={{ opacity: 0, y: 24 }}
@@ -77,7 +79,7 @@ export default function About() {
             <Pill color="bg-fuchsia-500/60" text="Agile Teamwork" />
             <Pill color="bg-cyan-500/60" text="Best Practices" />
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

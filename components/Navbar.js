@@ -1,74 +1,81 @@
-// K72-Style Navigation - Square Hamburger + Unique HARUN Logo
+// K72-Style Navigation - SCROLLABLE + ALL SERVICES
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { m, AnimatePresence } from "framer-motion";
+import Link from "next/link";
+import { Github, Linkedin, Twitter, Instagram, ChevronDown } from "lucide-react";
 
 const navLinks = [
-  { href: "#projects", label: "PROJECTS", hover: "VIEW MY WORK", media: { type: "video", src: "https://cdn.coverr.co/videos/coverr-typing-on-a-macbook-5765/1080p.mp4" } },
-  { href: "#about", label: "ABOUT", hover: "KNOW ME BETTER", media: { type: "image", src: "/menu/about.png" } },
-  { href: "#skills", label: "SKILLS", hover: "MY EXPERTISE", media: { type: "image", src: "/menu/skills.png" } },
-  { href: "#services", label: "SERVICES", hover: "WHAT I OFFER", media: { type: "image", src: "/menu/services.png" } },
-  { href: "#contact", label: "CONTACT", hover: "LET'S TALK", media: { type: "image", src: "/menu/contact.png" } }
+  { href: "/#projects", label: "PROJECTS", hover: "VIEW MY WORK" },
+  { href: "/#about", label: "ABOUT", hover: "KNOW ME BETTER" },
+  { href: "/#skills", label: "SKILLS", hover: "MY EXPERTISE" },
+  { href: "/#services", label: "SERVICES", hover: "WHAT I OFFER", hasSubmenu: true },
+  { href: "/blog", label: "BLOG", hover: "READ ARTICLES" },
+  { href: "/#contact", label: "CONTACT", hover: "LET'S TALK" }
 ];
 
-// HARUN Full Logo - All 5 Letters
+const serviceLinks = [
+  { name: 'Web Development', url: '/services/web-development' },
+  { name: 'Mobile Apps', url: '/services/mobile-apps' },
+  { name: 'UI/UX Design', url: '/services/ui-ux-design' },
+  { name: 'AI & Agents', url: '/services/ai-agents' },
+  { name: 'Backend & APIs', url: '/services/backend-apis' },
+  { name: 'SEO / GEO', url: '/services/seo-optimization' }
+];
+
 function HarunLogo({ variant = "default" }) {
   const isLight = variant === "light";
-  const mainColor = isLight ? "#D3FD50" : "white";
+  const accentColor = "#D3FD50"; // Lime
+  const textColor = isLight ? "#D3FD50" : "white";
 
   return (
-    <svg viewBox="0 0 130 35" className="h-7 sm:h-8 lg:h-10 w-auto">
-      {/* H */}
-      <rect x="0" y="0" width="4" height="35" fill={mainColor} />
-      <rect x="0" y="15" width="14" height="5" fill={mainColor} />
-      <rect x="10" y="0" width="4" height="35" fill={mainColor} />
+    <div className="flex items-center gap-2 group">
+      {/* Icon - Code Brackets with Gradient */}
+      <div className="relative">
+        <svg viewBox="0 0 40 40" className="w-8 h-8 sm:w-9 sm:h-9">
+          {/* Gradient Definition */}
+          <defs>
+            <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={accentColor} />
+              <stop offset="100%" stopColor="#22c55e" />
+            </linearGradient>
+          </defs>
+          {/* Outer Circle */}
+          <circle cx="20" cy="20" r="18" fill="none" stroke="url(#logoGrad)" strokeWidth="2" className="group-hover:stroke-[3] transition-all" />
+          {/* Code Brackets */}
+          <path d="M14 13 L8 20 L14 27" fill="none" stroke={accentColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M26 13 L32 20 L26 27" fill="none" stroke={accentColor} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          {/* Slash */}
+          <line x1="22" y1="12" x2="18" y2="28" stroke={accentColor} strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      </div>
 
-      {/* A */}
-      <polygon points="22,35 28,0 34,35 30,35 28,24 26,35" fill={mainColor} />
-      <rect x="24" y="20" width="8" height="4" fill={mainColor} />
-
-      {/* R */}
-      <rect x="42" y="0" width="4" height="35" fill="#D3FD50" />
-      <path d="M42 0 L54 0 Q60 0 60 8 Q60 16 54 16 L46 16 L46 12 L52 12 Q56 12 56 8 Q56 4 52 4 L46 4 Z" fill="#D3FD50" />
-      <polygon points="52,16 62,35 56,35 48,18" fill="#D3FD50" />
-
-      {/* U */}
-      <path d="M68 0 L68 25 Q68 35 78 35 Q88 35 88 25 L88 0 L84 0 L84 25 Q84 31 78 31 Q72 31 72 25 L72 0 Z" fill="#D3FD50" />
-
-      {/* N */}
-      <rect x="96" y="0" width="4" height="35" fill="#D3FD50" />
-      <polygon points="96,0 100,0 116,28 116,0 120,0 120,35 116,35 100,7 100,35 96,35" fill="#D3FD50" />
-    </svg>
+      {/* Text - HARUN */}
+      <div className="flex flex-col leading-none">
+        <span className="font-black text-lg sm:text-xl tracking-tight" style={{ color: textColor }}>
+          <span style={{ color: accentColor }}>H</span>ARUN
+        </span>
+        <span className="text-[8px] sm:text-[9px] tracking-[0.3em] uppercase opacity-50" style={{ color: textColor }}>
+          Full Stack Dev
+        </span>
+      </div>
+    </div>
   );
 }
 
-// K72 EXACT Hamburger - WIDE, thin lines
+
 function K72Hamburger({ onClick }) {
   const [hovered, setHovered] = useState(false);
   return (
-    <div onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
-      className="h-10 lg:h-16 bg-black relative w-48 lg:w-[16vw] cursor-pointer overflow-hidden">
-      {/* Green fill from TOP */}
-      <motion.div
-        className="absolute top-0 left-0 right-0 bg-[#D3FD50]"
-        animate={{ height: hovered ? "100%" : 0 }}
-        transition={{ duration: 0.3 }}
-      />
-      <div className="relative h-full px-8 lg:px-12 flex flex-col justify-center items-end gap-0.5 lg:gap-1.5 z-10">
-        {/* Thin lines like K72 */}
-        <motion.div
-          className="h-0.5 bg-white"
-          style={{ width: 48 }}
-          animate={{ backgroundColor: hovered ? "#000" : "#fff" }}
-          transition={{ duration: 0.2 }}
-        />
-        <motion.div
-          className="h-0.5 bg-white"
-          style={{ width: 24 }}
-          animate={{ backgroundColor: hovered ? "#000" : "#fff" }}
-          transition={{ duration: 0.2 }}
-        />
+    <button onClick={onClick} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} aria-label="Open Menu"
+      className="h-10 lg:h-16 bg-black relative w-48 lg:w-[16vw] cursor-pointer overflow-hidden border-none p-0 outline-none group focus:ring-2 focus:ring-[#D3FD50]">
+      {/* CSS Transition Background */}
+      <div className="absolute top-0 left-0 right-0 bg-[#D3FD50] h-0 group-hover:h-full transition-all duration-300 ease-in-out" />
+
+      <div className="relative h-full px-8 lg:px-12 flex flex-col justify-center items-end gap-0.5 lg:gap-1.5 z-10 w-full">
+        <div className="h-0.5 w-[48px] bg-white group-hover:bg-black transition-colors duration-300" />
+        <div className="h-0.5 w-[24px] bg-white group-hover:bg-black transition-colors duration-300" />
       </div>
-    </div>
+    </button>
   );
 }
 
@@ -78,15 +85,10 @@ const stairVariants = {
   exit: (i) => ({ height: 0, transition: { duration: 0.25, delay: 0.03 * i, ease: [0.65, 0, 0.35, 1] } })
 };
 
-const linkVariants = {
-  closed: { opacity: 0, y: 30 },
-  open: (i) => ({ opacity: 1, y: 0, transition: { duration: 0.4, delay: 0.25 + i * 0.06, ease: [0.22, 1, 0.36, 1] } }),
-  exit: { opacity: 0, y: -20, transition: { duration: 0.15 } }
-};
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
 
   useEffect(() => { setMounted(true); }, []);
   useEffect(() => {
@@ -100,83 +102,113 @@ export default function Navbar() {
     <>
       <nav className="fixed top-0 left-0 right-0 z-40 flex justify-between items-center">
         <div className="p-4 sm:p-5 lg:p-6">
-          <a href="#hero"><HarunLogo /></a>
+          <Link href="/" aria-label="Harun Home"><HarunLogo /></Link>
         </div>
         <K72Hamburger onClick={() => setOpen(true)} />
       </nav>
 
       <AnimatePresence mode="wait">
         {open && (
-          <motion.div key="nav" className="fixed inset-0 z-50 overflow-hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
-            {/* Stairs */}
+          <m.div key="nav" className="fixed inset-0 z-50 flex flex-col" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+            {/* Stairs Background */}
             <div className="fixed inset-0 flex">
               {[...Array(5)].map((_, i) => (
-                <motion.div key={i} className="w-1/5 bg-black origin-top" custom={i} initial="closed" animate="open" exit="exit" variants={stairVariants} />
+                <m.div key={i} className="w-1/5 bg-black origin-top" custom={i} initial="closed" animate="open" exit="exit" variants={stairVariants} />
               ))}
             </div>
 
-            {/* Header */}
-            <motion.div className="relative z-10 flex justify-between items-center p-4 sm:p-5 lg:p-6" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}>
-              <a href="#hero" onClick={() => setOpen(false)}><HarunLogo variant="light" /></a>
-              {/* X Close */}
-              <button onClick={() => setOpen(false)} className="h-16 sm:h-20 lg:h-24 w-16 sm:w-20 lg:w-24 relative">
-                <motion.div className="absolute top-0 left-1/2 w-1 bg-[#D3FD50] origin-top" initial={{ height: 0, rotate: -45, x: "-50%" }} animate={{ height: "100%", rotate: -45, x: "-50%" }} transition={{ delay: 0.4, duration: 0.25 }} />
-                <motion.div className="absolute top-0 right-0 w-1 bg-[#D3FD50] origin-top" initial={{ height: 0, rotate: 45 }} animate={{ height: "100%", rotate: 45 }} transition={{ delay: 0.4, duration: 0.25 }} />
+            {/* Header - Fixed at Top */}
+            <m.div className="relative z-10 flex justify-between items-center p-4 sm:p-5 lg:p-6 shrink-0" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}>
+              <Link href="/" onClick={() => setOpen(false)} aria-label="Home"><HarunLogo variant="light" /></Link>
+              <button onClick={() => setOpen(false)} aria-label="Close Menu" className="h-12 w-12 relative outline-none group">
+                <div className="absolute top-0 left-1/2 w-1 bg-[#D3FD50] origin-top h-full -rotate-45 -translate-x-1/2 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 delay-100 ease-out origin-top" />
+                <div className="absolute top-0 right-0 w-1 bg-[#D3FD50] origin-top h-full rotate-45 scale-y-0 group-hover:scale-y-100 transition-transform duration-300 delay-100 ease-out origin-top" />
+                {/* Fallback visible X for UX */}
+                <div className="absolute top-1/2 left-1/2 w-6 h-0.5 bg-[#D3FD50] -translate-x-1/2 -translate-y-1/2 rotate-45" />
+                <div className="absolute top-1/2 left-1/2 w-6 h-0.5 bg-[#D3FD50] -translate-x-1/2 -translate-y-1/2 -rotate-45" />
               </button>
-            </motion.div>
+            </m.div>
 
-            {/* Links */}
-            <div className="relative z-10 flex flex-col justify-center items-center px-4 mt-4 sm:mt-8">
+            {/* SCROLLABLE Links Container */}
+            <div className="relative z-10 flex-1 overflow-y-auto px-4 sm:px-8 py-4">
               {navLinks.map((link, i) => (
-                <motion.div key={link.href} className="w-full border-t border-white/10 overflow-hidden" custom={i} initial="closed" animate="open" exit="exit" variants={linkVariants}>
-                  <a href={link.href} onClick={() => setOpen(false)} className="group block relative overflow-hidden cursor-pointer">
-                    <h1 className="font-black text-[7vw] sm:text-[6vw] md:text-[5vw] lg:text-[4vw] text-white text-center leading-[1.4] py-2 sm:py-3 uppercase tracking-tight">
-                      {link.label}
-                    </h1>
+                // Use CSS animation for entry staggers instead of JS variants if possible, 
+                // but for staggered exit we might still need Motion. 
+                // Let's keep Motion for EXIT staggering but simplify the content.
+                <m.div
+                  key={link.href}
+                  className="border-t border-white/10"
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.25 + i * 0.05, duration: 0.4 }}
+                >
+                  {link.hasSubmenu ? (
+                    // SERVICES with Submenu
+                    <div>
+                      <button
+                        onClick={() => setServicesOpen(!servicesOpen)}
+                        className="w-full group relative overflow-hidden"
+                      >
+                        {/* Base Text */}
+                        <div className="flex items-center justify-center py-3">
+                          <h1 className="font-black text-[8vw] sm:text-[5vw] lg:text-[4vw] text-white uppercase tracking-tight group-hover:text-[#D3FD50] transition-colors duration-300">
+                            {link.label}
+                          </h1>
+                          <ChevronDown className={`text-[#D3FD50] ml-4 transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} size={28} />
+                        </div>
+                      </button>
 
-                    {/* Marquee with Video/Image */}
-                    <div className="absolute inset-0 bg-[#D3FD50] text-black flex items-center overflow-hidden translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out">
-                      <div className="flex animate-marquee whitespace-nowrap items-center">
-                        {[...Array(6)].map((_, j) => (
-                          <div key={j} className="flex items-center">
-                            <span className="font-black text-[7vw] sm:text-[6vw] md:text-[5vw] lg:text-[4vw] leading-[1.4] py-2 sm:py-3 uppercase tracking-tight px-3 sm:px-4">
-                              {link.hover}
-                            </span>
-                            <div className="h-10 sm:h-14 lg:h-16 w-28 sm:w-36 lg:w-44 rounded-full overflow-hidden shrink-0 mx-2 border-2 border-black/20">
-                              {link.media.type === "video" ? (
-                                <video autoPlay muted loop playsInline className="h-full w-full object-cover">
-                                  <source src={link.media.src} type="video/mp4" />
-                                </video>
-                              ) : (
-                                <img src={link.media.src} alt="" className="h-full w-full object-cover" />
-                              )}
-                            </div>
-                          </div>
+                      {/* All 6 Service Subpages */}
+                      <div className={`grid grid-cols-2 sm:grid-cols-3 gap-3 px-2 overflow-hidden transition-all duration-500 ease-in-out ${servicesOpen ? 'max-h-[500px] py-4 opacity-100' : 'max-h-0 py-0 opacity-0'}`}>
+                        {serviceLinks.map((s, idx) => (
+                          <Link key={idx} href={s.url} onClick={() => setOpen(false)}
+                            className="text-sm font-semibold text-[#D3FD50] hover:text-black hover:bg-[#D3FD50] px-4 py-3 rounded-lg transition-all border border-[#D3FD50]/30 text-center">
+                            {s.name}
+                          </Link>
                         ))}
                       </div>
                     </div>
-                  </a>
-                </motion.div>
+                  ) : (
+                    // Regular Links
+                    <Link href={link.href} onClick={() => setOpen(false)} className="block group">
+                      <h1 className="font-black text-[8vw] sm:text-[5vw] lg:text-[4vw] text-white text-center py-3 uppercase tracking-tight group-hover:text-[#D3FD50] transition-colors duration-300">
+                        {link.label}
+                      </h1>
+                    </Link>
+                  )}
+                </m.div>
               ))}
             </div>
 
-            {/* Footer */}
-            <motion.div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 flex justify-between items-center border-t border-white/10" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
-              <span className="text-white/40 text-xs sm:text-sm">INDIA • 2024</span>
-              <div className="flex gap-2 sm:gap-3">
-                {["GH", "LI", "TW", "IG"].map((s) => (
-                  <a key={s} href="#" className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:bg-[#D3FD50] hover:border-[#D3FD50] hover:text-black transition-all text-xs font-bold">{s}</a>
+            {/* Footer - Fixed at Bottom */}
+            <m.div
+              className="relative z-10 p-4 flex justify-between items-center border-t border-white/10 shrink-0 bg-black/80 backdrop-blur"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+            >
+              <span className="text-white/40 text-xs">
+                INDIA • 2024
+                <Link href="/admin" className="ml-2 hover:text-white transition-colors">• ADMIN</Link>
+              </span>
+              <div className="flex gap-2">
+                {[
+                  { icon: Github, href: "https://github.com/harunali86" },
+                  { icon: Linkedin, href: "https://linkedin.com/in/harunshaikh" },
+                  { icon: Twitter, href: "https://twitter.com/harunshaikh" },
+                  { icon: Instagram, href: "https://instagram.com/harunshaikh" }
+                ].map((s, i) => (
+                  <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={`Social ${i}`}
+                    className="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-white/50 hover:bg-[#D3FD50] hover:border-[#D3FD50] hover:text-black transition-all">
+                    <s.icon className="w-4 h-4" />
+                  </a>
                 ))}
               </div>
-            </motion.div>
-
-            <style jsx global>{`
-              @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-              .animate-marquee { animation: marquee 12s linear infinite; }
-            `}</style>
-          </motion.div>
+            </m.div>
+          </m.div>
         )}
       </AnimatePresence>
     </>
   );
 }
+

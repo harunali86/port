@@ -4,20 +4,23 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, ContactShadows, useGLTF, Lightformer, OrbitControls } from '@react-three/drei';
 import * as THREE from 'three';
 
-function FerrariFFXK() {
-    const { scene } = useGLTF('/models/ferrari_fxx_k_2015__www.vecarz.com.glb');
+function FerrariFFXK({ isMobile, ...props }) {
+    // Uses compressed model for 50% faster load
+    const { scene } = useGLTF('/models/ferrari_compressed.glb');
     const carRef = useRef();
 
     // Material Enhancement
     useEffect(() => {
+        if (!scene) return;
+
         scene.traverse((child) => {
             if (child.isMesh) {
                 child.castShadow = true;
                 child.receiveShadow = true;
                 if (child.material) {
-                    child.material.envMapIntensity = 2;
+                    child.material.envMapIntensity = 2.5;
                     if (child.material.metalness !== undefined) {
-                        child.material.metalness = Math.min(child.material.metalness + 0.2, 0.95);
+                        child.material.metalness = Math.min(child.material.metalness + 0.3, 0.95);
                     }
                     if (child.material.roughness !== undefined) {
                         child.material.roughness = Math.max(child.material.roughness - 0.1, 0.05);
@@ -27,71 +30,77 @@ function FerrariFFXK() {
         });
     }, [scene]);
 
-    // CINEMATIC HERO DRIFT ANIMATION - STARTS IMMEDIATELY
+    // CINEMATIC REAL DRIFT ENTRY
     useFrame((state) => {
-        if (!carRef.current || !carRef.current.position) return;
+        if (!carRef.current) return;
         const t = state.clock.elapsedTime;
 
+        // PHASE 1: HIGH SPEED ENTRY (Right to Left)
         if (t < 0.8) {
-            // Phase 1: DRAMATIC SLOW REVEAL
-            const p = t / 0.8;
-            const ease = 1 - Math.pow(1 - p, 3);
+            // Faster intro
+            const progress = 1 - Math.pow(1 - (t / 0.8), 3);
+            carRef.current.position.x = 55 - (50 * progress);
+            carRef.current.position.z = -12 + (10 * progress);
 
-            carRef.current.position.x = 60 * (1 - ease);
-            carRef.current.position.z = -5 * (1 - ease);
             carRef.current.rotation.y = -Math.PI / 2;
-            carRef.current.rotation.z = 0.03;
-            carRef.current.position.y = -1;
+            carRef.current.rotation.z = Math.sin(t * 10) * 0.02; // High speed vibration
+            carRef.current.rotation.x = -0.02; // Nose down (braking anticipation)
+            const baseY = isMobile ? -1.5 : -1.0;
+            carRef.current.position.y = baseY;
+        }
+        // PHASE 2: THE DRIFT (Snap & Whip)
+        else if (t < 2.5) {
+            const dt = (t - 0.8) / 1.7;
+            // Quartic ease out for heavy braking feel
+            const ease = 1 - Math.pow(1 - dt, 4);
 
-        } else if (t < 2.2) {
-            // Phase 2: CINEMATIC DRIFT
-            const dt = t - 0.8;
-            const duration = 1.4;
-            const p = dt / duration;
-            const ease = 1 - Math.pow(1 - p, 2.5);
+            carRef.current.position.x = 5 - (6 * ease);
+            carRef.current.position.z = -2 + (2.5 * ease);
 
-            carRef.current.position.x = 0;
-            carRef.current.position.z = 8 * Math.sin(p * Math.PI * 0.8);
-            carRef.current.rotation.y = -Math.PI / 2 + (Math.PI * 1.5 * ease);
-            carRef.current.rotation.z = 0.3 * Math.sin(p * Math.PI);
-            carRef.current.rotation.y += Math.sin(t * 22) * 0.08 * (1 - p);
-            carRef.current.position.y = -1 + Math.abs(Math.sin(t * 15)) * 0.06 * (1 - p);
+            // Rotation: Whip effect with Counter-Steer
+            const startRot = -Math.PI / 2;
+            const endRot = -Math.PI * 0.9;
 
-        } else if (t < 2.8) {
-            // Phase 3: HERO POSE SNAP
-            const st = t - 2.2;
-            const bounce = Math.sin(st * Math.PI * 10) * Math.exp(-st * 18);
+            // Counter-steer: Go SLIGHTLY past the angle then correct
+            const overshoot = Math.sin(dt * Math.PI) * 0.1;
+            const rotEase = 1 - Math.pow(1 - dt, 2);
+            carRef.current.rotation.y = startRot + (endRot - startRot) * rotEase - overshoot;
 
-            carRef.current.position.x = bounce * 0.3;
-            carRef.current.position.z = bounce * 0.2;
-            carRef.current.rotation.y = Math.PI + bounce * 0.05;
-            carRef.current.rotation.z = bounce * 0.03;
-            carRef.current.position.y = -1;
+            // Body Roll & Suspension (Aggressive Tilt)
+            const tilt = Math.sin(dt * Math.PI) * 0.25;
+            carRef.current.rotation.z = tilt;
 
-        } else {
-            // Phase 4: SHOWCASE
-            const ht = t - 2.8;
-            carRef.current.position.x = 0;
-            carRef.current.position.z = 0;
-            carRef.current.rotation.y = Math.PI + Math.sin(ht * 0.3) * 0.5;
-            carRef.current.rotation.z = 0;
-            carRef.current.position.y = -1 + Math.sin(ht * 0.6) * 0.015;
+            // Suspension Dip (Squat on stop)
+            const squat = Math.sin(dt * Math.PI) * 0.15; // Deeper squat
+            const baseY = isMobile ? -1.5 : -1.0;
+            carRef.current.position.y = baseY - squat;
+        }
+        // PHASE 3: IDLE
+        else {
+            carRef.current.position.x = THREE.MathUtils.lerp(carRef.current.position.x, 0, 0.05);
+            carRef.current.position.z = THREE.MathUtils.lerp(carRef.current.position.z, 0.5, 0.05);
+            carRef.current.rotation.y = THREE.MathUtils.lerp(carRef.current.rotation.y, -Math.PI * 0.9, 0.05);
+            carRef.current.rotation.z = THREE.MathUtils.lerp(carRef.current.rotation.z, 0, 0.1);
+
+            const ht = t - 2.5;
+            const baseY = isMobile ? -1.5 : -1.0;
+            carRef.current.position.y = baseY + Math.sin(ht) * 0.005;
         }
     });
 
     return (
-        <group ref={carRef} position={[60, -1, -5]} rotation={[0, -Math.PI / 2, 0.03]} scale={100}>
+        <group ref={carRef} {...props}>
             <primitive object={scene} />
         </group>
     );
 }
 
 // CINEMATIC LIGHTING
-function ShowroomLighting() {
+function ShowroomLighting({ isMobile }) {
     return (
         <>
             <ambientLight intensity={0.5} />
-            <spotLight position={[12, 18, 12]} angle={0.35} penumbra={1} intensity={4} castShadow color="#ffffff" />
+            <spotLight position={[12, 18, 12]} angle={0.35} penumbra={1} intensity={4} castShadow={!isMobile} color="#ffffff" shadow-mapSize={[512, 512]} />
             <spotLight position={[-10, 14, 8]} angle={0.45} penumbra={1} intensity={2.5} color="#fff5e6" />
             <directionalLight position={[0, 10, -15]} intensity={2.5} color="#ffffff" />
             <pointLight position={[0, 5, 10]} intensity={1} color="#ff6666" />
@@ -150,47 +159,64 @@ function SoundButton() {
     );
 }
 
-export default function Car3D() {
+export default function Car3D({ isMobile }) {
+
+    // Mobile adjustments - AGGRESSIVE
+    const carScale = isMobile ? 40 : 58; // Slightly smaller for mobile
+    const carPosition = isMobile ? [0, -1.5, 0] : [0, -1.0, 0.5]; // Visible in viewport
+    const shadowRes = isMobile ? 128 : 256; // Optimized shadows (256 is enough)
+
     return (
         <div style={{ width: '100%', height: '100%', position: 'relative' }}>
             {/* Sound toggle button */}
             <SoundButton />
 
             <Canvas
-                shadows
-                dpr={[1, 2]}
-                camera={{ position: [6, 3, 10], fov: 45 }}
+                shadows={!isMobile} // Disable shadows globally on mobile
+                dpr={isMobile ? 1 : [1, 1.5]} // Force 1x DPR on mobile
+                camera={{ position: [0, 0.5, 8.5], fov: 50 }}
                 gl={{
                     antialias: true,
                     alpha: true,
                     toneMapping: THREE.ACESFilmicToneMapping,
-                    toneMappingExposure: 1.2
+                    toneMappingExposure: 1.2,
+                    powerPreference: "high-performance"
                 }}
             >
                 <Suspense fallback={null}>
                     <OrbitControls
                         enableZoom={true}
-                        enablePan={false}
+                        enablePan={!isMobile}
                         enableRotate={true}
-                        minDistance={4}
+                        enableDamping={true}
+                        dampingFactor={0.05}
+                        autoRotate={true}
+                        autoRotateSpeed={isMobile ? 0.5 : 2.0} // Very slow rotate on mobile
+                        target={[0, -1.0, 0.5]}
+                        minDistance={5}
                         maxDistance={25}
-                        minPolarAngle={Math.PI / 4}
-                        maxPolarAngle={Math.PI / 2.2}
+                        minPolarAngle={0}
+                        maxPolarAngle={Math.PI / 2}
                     />
-                    <ShowroomLighting />
-                    <FerrariFFXK />
-                    <ContactShadows
-                        position={[0, -1.5, 0]}
-                        opacity={0.5}
-                        scale={30}
-                        blur={2}
-                        far={15}
-                        color="#000000"
-                    />
+                    <ShowroomLighting isMobile={isMobile} />
+
+                    {/* Pass logic-driven props to the car */}
+                    <FerrariFFXK position={carPosition} scale={carScale} rotation={[0, -Math.PI * 0.9, 0]} isMobile={isMobile} />
+
+                    {/* Shadows are KILLING the mobile score. Disable them. */}
+                    {!isMobile && (
+                        <ContactShadows
+                            resolution={shadowRes}
+                            scale={isMobile ? 30 : 80}
+                            blur={isMobile ? 2 : 1.5}
+                            opacity={isMobile ? 0.6 : 0.8}
+                            far={100}
+                            color="#000000"
+                        />
+                    )}
                 </Suspense>
             </Canvas>
         </div>
     );
 }
 
-useGLTF.preload('/models/ferrari_fxx_k_2015__www.vecarz.com.glb');

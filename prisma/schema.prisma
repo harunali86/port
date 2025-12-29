@@ -14,3 +14,27 @@ model ContactMessage {
   message   String
   createdAt DateTime @default(now())
 }
+
+model SiteConfig {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique // e.g., 'resume'
+  value     String   // e.g., '/resume.pdf'
+  updatedAt DateTime @updatedAt
+}
+
+model posts {
+  id           Int      @id @default(autoincrement())
+  title        String
+  slug         String   @unique
+  excerpt      String?
+  content      String?
+  image_url    String?
+  is_published Boolean  @default(true)
+  created_at   DateTime @default(now())
+}
+
+model Analytics {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  count Int    @default(0)
+}

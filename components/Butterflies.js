@@ -1,5 +1,5 @@
 import Lottie from 'lottie-react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import butterfly1 from '@/public/lotties/butterfly1.json';
 import butterfly2 from '@/public/lotties/butterfly2.json';
 import butterfly3 from '@/public/lotties/butterfly3.json';
@@ -7,76 +7,76 @@ import butterfly3 from '@/public/lotties/butterfly3.json';
 const Butterflies = () => {
     return (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
-            {/* Top right - flies to center and back */}
-            <motion.div
-                className="absolute top-[5%] right-[5%] w-14 h-14 opacity-85"
+            {/* 1. Top Left of Card - Hovering */}
+            <m.div
+                className="hidden md:block absolute top-[10%] left-[15%] w-32 h-32 opacity-90"
                 animate={{
-                    x: [0, -150, -200, -150, 0],
-                    y: [0, 80, 120, 80, 0],
-                    rotate: [0, 20, 0, -20, 0],
+                    x: [0, 50, 0, 50, 0],
+                    y: [0, -30, 0, -30, 0],
+                    rotate: [0, 10, -10, 10, 0],
                 }}
                 transition={{
-                    duration: 12,
+                    duration: 8,
                     repeat: Infinity,
                     ease: "easeInOut",
                 }}
             >
                 <Lottie animationData={butterfly1} loop autoplay />
-            </motion.div>
+            </m.div>
 
-            {/* Left side - flies to center and back */}
-            <motion.div
-                className="absolute top-[40%] left-[2%] w-20 h-20 opacity-90"
+            {/* 2. Top Right of Card - Hovering */}
+            <m.div
+                className="hidden md:block absolute top-[10%] right-[15%] w-36 h-36 opacity-90"
                 animate={{
-                    x: [0, 120, 180, 120, 0],
-                    y: [0, -30, 0, 30, 0],
-                    rotate: [0, -15, 0, 15, 0],
+                    x: [0, -60, 0, -60, 0],
+                    y: [0, 40, 0, 40, 0],
+                    rotate: [0, -15, 15, -15, 0],
                 }}
                 transition={{
-                    duration: 14,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 2,
-                }}
-            >
-                <Lottie animationData={butterfly2} loop autoplay />
-            </motion.div>
-
-            {/* Bottom right - flies to center and back */}
-            <motion.div
-                className="absolute bottom-[10%] right-[8%] w-24 h-24 opacity-80"
-                animate={{
-                    x: [0, -100, -160, -100, 0],
-                    y: [0, -80, -140, -80, 0],
-                    rotate: [0, 25, 0, -25, 0],
-                }}
-                transition={{
-                    duration: 15,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                    delay: 4,
-                }}
-            >
-                <Lottie animationData={butterfly3} loop autoplay />
-            </motion.div>
-
-            {/* Bottom left - flies to center and back */}
-            <motion.div
-                className="absolute bottom-[20%] left-[5%] w-16 h-16 opacity-75"
-                animate={{
-                    x: [0, 100, 150, 100, 0],
-                    y: [0, -60, -100, -60, 0],
-                    rotate: [0, -20, 0, 20, 0],
-                }}
-                transition={{
-                    duration: 13,
+                    duration: 10,
                     repeat: Infinity,
                     ease: "easeInOut",
                     delay: 1,
                 }}
             >
+                <Lottie animationData={butterfly3} loop autoplay />
+            </m.div>
+
+            {/* 3. Center Top (Above Text) - Floating */}
+            <m.div
+                className="absolute top-[5%] left-[45%] w-40 h-40 opacity-85"
+                animate={{
+                    x: [0, 20, -20, 20, 0],
+                    y: [0, 15, 0, 15, 0],
+                    scale: [1, 1.1, 1, 1.1, 1],
+                }}
+                transition={{
+                    duration: 12,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.5,
+                }}
+            >
+                <Lottie animationData={butterfly2} loop autoplay />
+            </m.div>
+
+            {/* 4. Center Bottom (Near text bottom) - Floating */}
+            <m.div
+                className="absolute top-[20%] left-[55%] w-28 h-28 opacity-80"
+                animate={{
+                    x: [0, -30, 30, -30, 0],
+                    y: [0, -20, 20, -20, 0],
+                    rotate: [0, 5, -5, 5, 0],
+                }}
+                transition={{
+                    duration: 9,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 2,
+                }}
+            >
                 <Lottie animationData={butterfly1} loop autoplay />
-            </motion.div>
+            </m.div>
         </div>
     );
 };

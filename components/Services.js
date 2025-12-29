@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Lottie from "lottie-react";
 
 // Import Weblyss Lottie animations (using -main files which are complete)
@@ -14,6 +15,7 @@ const services = [
     {
         id: "01",
         title: "Web Development",
+        slug: "web-development",
         desc: "Custom web apps, SaaS platforms, and dashboards built with React & Next.js",
         tech: ["React", "Next.js", "Node.js", "TypeScript"],
         lottie: socialAnim,
@@ -21,6 +23,7 @@ const services = [
     {
         id: "02",
         title: "Mobile Apps",
+        slug: "mobile-apps",
         desc: "Cross-platform iOS & Android apps with native performance",
         tech: ["React Native", "Flutter", "Expo"],
         lottie: adsAnim,
@@ -28,6 +31,7 @@ const services = [
     {
         id: "03",
         title: "UI/UX Design",
+        slug: "ui-ux-design",
         desc: "Beautiful interfaces with smooth micro-interactions",
         tech: ["Figma", "Framer", "Motion"],
         lottie: brandingAnim,
@@ -35,6 +39,7 @@ const services = [
     {
         id: "04",
         title: "AI & Agents",
+        slug: "ai-agents",
         desc: "Chatbots, RAG systems & autonomous AI agents",
         tech: ["GPT-4", "Claude", "LangChain"],
         lottie: strategyAnim,
@@ -42,6 +47,7 @@ const services = [
     {
         id: "05",
         title: "Backend & APIs",
+        slug: "backend-apis",
         desc: "Scalable APIs, databases & cloud infrastructure",
         tech: ["GraphQL", "PostgreSQL", "AWS"],
         lottie: developmentAnim,
@@ -49,6 +55,7 @@ const services = [
     {
         id: "06",
         title: "SEO / GEO / AEO",
+        slug: "seo-optimization",
         desc: "AI search optimization for Perplexity & Google SGE",
         tech: ["SEO", "GEO", "AEO", "Schema"],
         lottie: researchAnim,
@@ -56,8 +63,8 @@ const services = [
 ];
 
 export default function ServicesSection() {
-    const [active, setActive] = useState(null);
     const [hovered, setHovered] = useState(null);
+    const router = useRouter();
 
     return (
         <section
@@ -88,7 +95,6 @@ export default function ServicesSection() {
             {/* Service List */}
             <div className="max-w-6xl mx-auto px-6">
                 {services.map((service, index) => {
-                    const isActive = active === index;
                     const isHovered = hovered === index;
 
                     return (
@@ -100,7 +106,7 @@ export default function ServicesSection() {
                             transition={{ delay: index * 0.05 }}
                             onMouseEnter={() => setHovered(index)}
                             onMouseLeave={() => setHovered(null)}
-                            onClick={() => setActive(isActive ? null : index)}
+                            onClick={() => router.push(`/services/${service.slug}`)}
                             className="group cursor-pointer"
                         >
                             {/* Divider */}
@@ -118,9 +124,9 @@ export default function ServicesSection() {
                                     className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0"
                                     initial={{ width: 0, opacity: 0 }}
                                     animate={{
-                                        width: isHovered || isActive ? 64 : 0,
-                                        opacity: isHovered || isActive ? 1 : 0,
-                                        marginRight: isHovered || isActive ? 0 : -32
+                                        width: isHovered ? 64 : 0,
+                                        opacity: isHovered ? 1 : 0,
+                                        marginRight: isHovered ? 0 : -32
                                     }}
                                     transition={{ duration: 0.3 }}
                                     style={{ background: 'rgba(255,255,255,0.03)' }}
@@ -140,48 +146,17 @@ export default function ServicesSection() {
 
                                 {/* Arrow */}
                                 <motion.div
-                                    className="w-12 h-12 rounded-full border border-[#222] flex items-center justify-center"
+                                    className="w-12 h-12 rounded-full border border-[#222] flex items-center justify-center transform group-hover:-rotate-45 transition-transform duration-300"
                                     animate={{
-                                        rotate: isActive ? 90 : 0,
                                         borderColor: isHovered ? '#00ff41' : '#222',
-                                        background: isActive ? '#00ff41' : 'rgba(0,0,0,0)'
+                                        background: isHovered ? '#00ff41' : 'rgba(0,0,0,0)'
                                     }}
                                 >
-                                    <span className={`text-lg transition-colors ${isActive ? 'text-black' : isHovered ? 'text-[#00ff41]' : 'text-[#333]'}`}>
+                                    <span className={`text-lg transition-colors ${isHovered ? 'text-black' : 'text-[#333]'}`}>
                                         →
                                     </span>
                                 </motion.div>
                             </div>
-
-                            {/* Expanded content */}
-                            <AnimatePresence>
-                                {isActive && (
-                                    <motion.div
-                                        initial={{ height: 0, opacity: 0 }}
-                                        animate={{ height: 'auto', opacity: 1 }}
-                                        exit={{ height: 0, opacity: 0 }}
-                                        transition={{ duration: 0.4 }}
-                                        className="overflow-hidden"
-                                    >
-                                        <div className="pb-8 pl-[72px] md:pl-[88px]">
-                                            <p className="text-[#555] text-lg mb-6 max-w-xl">
-                                                {service.desc}
-                                            </p>
-
-                                            <div className="flex flex-wrap gap-3">
-                                                {service.tech.map((tech) => (
-                                                    <span
-                                                        key={tech}
-                                                        className="px-4 py-2 border border-[#222] text-[#444] font-mono text-sm hover:border-[#00ff41] hover:text-[#00ff41] transition-colors"
-                                                    >
-                                                        {tech}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
                         </motion.div>
                     );
                 })}
@@ -204,7 +179,7 @@ export default function ServicesSection() {
                     </div>
 
                     <motion.a
-                        href="#contact"
+                        href="/#contact"
                         className="group flex items-center gap-4"
                         whileHover={{ x: 10 }}
                     >

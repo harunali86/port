@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@700;900&family=JetBrains+Mono:wght@400;700&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -43,7 +41,7 @@ body {
 /* Glass effect with green tint */
 .glass {
   background: linear-gradient(120deg, rgba(16, 78, 56, 0.40) 0%, rgba(10, 35, 28, 0.60) 100%);
-  box-shadow: 0 12px 36px 0 rgba(16, 185, 129, 0.10), 0 2px 16px 0 rgba(0,0,0,0.20);
+  box-shadow: 0 12px 36px 0 rgba(16, 185, 129, 0.10), 0 2px 16px 0 rgba(0, 0, 0, 0.20);
   backdrop-filter: blur(22px) saturate(160%);
   border-radius: 1.5rem;
   border: 1px solid rgba(16, 185, 129, 0.20);
@@ -164,6 +162,7 @@ body {
 
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -179,8 +178,9 @@ body {
     background: #000;
     color: #fff;
   }
-  
-  a, button {
+
+  a,
+  button {
     text-decoration: underline;
   }
 }
@@ -191,9 +191,10 @@ body {
     background: white;
     color: black;
   }
-  
-  nav, .whatsapp-button, footer {
+
+  nav,
+  .whatsapp-button,
+  footer {
     display: none;
   }
 }
-

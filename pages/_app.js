@@ -1,36 +1,81 @@
 import '../styles/globals.css';
-import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
+import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion';
+import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import Layout from '../components/Layout';
 import SmoothScroll from '../components/SmoothScroll';
 import Preloader from '../components/Preloader';
 import WhatsAppButton from '../components/WhatsAppButton';
+import dynamic from 'next/dynamic';
+
+// Dynamic import for SoundToggle (client-only)
+const SoundToggle = dynamic(() => import('../components/SoundToggle'), { ssr: false });
+
+
+// Optimize Fonts
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
+});
+
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  variable: '--font-space',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 function MyApp({ Component, pageProps, router }) {
   const [isLoading, setIsLoading] = useState(true);
 
-  return (
-    <SmoothScroll>
-      {/* Preloader */}
-      <Preloader onComplete={() => setIsLoading(false)} />
+  useEffect(() => {
+    // Track Visit (Once per session)
+    if (!sessionStorage.getItem('visit_tracked')) {
+      fetch('/api/analytics/track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'visit' })
+      }).catch(err => console.error("Tracking Error:", err));
+      sessionStorage.setItem('visit_tracked', 'true');
+    }
+  }, []);
 
-      {/* WhatsApp Floating Button */}
-      {!isLoading && <WhatsAppButton />}
-      <AnimatePresence mode="wait">
-        {!isLoading && (
-          <motion.div
-            key={router?.pathname || 'main'}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </SmoothScroll>
+  return (
+    <LazyMotion features={domAnimation}>
+      <SmoothScroll>
+        <div className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}>
+          {/* Preloader - AnimatePresence handles the exit */}
+          <AnimatePresence mode="wait">
+            {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+          </AnimatePresence>
+
+          {/* WhatsApp Floating Button */}
+          {!isLoading && <WhatsAppButton />}
+
+          {/* Sound Toggle Button */}
+          {!isLoading && <SoundToggle />}
+
+
+          {/* Main Content - Always rendered behind preloader for fast LCP */}
+          <div className="relative z-0">
+            <m.div
+              key={router?.pathname || 'main'}
+              className="min-h-screen"
+            >
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </m.div>
+          </div>
+        </div>
+      </SmoothScroll>
+    </LazyMotion>
   );
 }
 
