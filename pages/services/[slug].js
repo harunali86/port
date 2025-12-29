@@ -1,4 +1,7 @@
 import { useRouter } from 'next/router';
+import Head from 'next/head';
+import { useState, useEffect } from 'react';
+import { m, useMotionValue } from 'framer-motion';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import AIHero from '../../components/services/AIHero';
