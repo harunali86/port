@@ -2,32 +2,38 @@ import { useState, useEffect } from 'react';
 import Image from "next/image";
 import { m } from "framer-motion";
 import dynamic from "next/dynamic";
+import { useGLTF } from '@react-three/drei';
 
 // Dynamic import for 3D Car with delayed loading for LCP optimization
 const Car3D = dynamic(() => import('./Car3D'), {
   ssr: false,
-  loading: () => null
+  ssr: false,
+  loading: () => <div className="w-full h-full flex items-center justify-center text-[#00ff41] font-mono text-xs animate-pulse">LOADING ASSETS...</div>
 });
 
 export default function Hero({ isMobile: isMobileSSR }) {
+  // Preload the model immediately
+  useEffect(() => {
+    useGLTF.preload('/models/ferrari_compressed.glb');
+  }, []);
+
   const [loadCar, setLoadCar] = useState(false);
   const [isMobile, setIsMobile] = useState(isMobileSSR);
 
   useEffect(() => {
-    // Check mobile state for animation optimization
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Smart Delay: 4.5s on Mobile (for Score), 2.5s on Desktop (avoid LCP collision)
-    const delayTime = window.innerWidth < 768 ? 4500 : 2500;
-    const timer = setTimeout(() => setLoadCar(true), delayTime);
+    // Re-introduced Smart Delay for LCP Score
+    // But with Visual Feedback (Loading Text) so it doesn't look broken
+    const timer = setTimeout(() => setLoadCar(true), 2500);
+
     return () => {
       clearTimeout(timer);
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
-
 
   return (
     <section id="hero" className="min-h-[100svh] w-full relative overflow-hidden flex flex-col justify-center">
@@ -37,8 +43,16 @@ export default function Hero({ isMobile: isMobileSSR }) {
         backgroundSize: '80px 80px'
       }} />
 
-      {/* 3D CAR - Floating in background (Conditional Load) */}
+      {/* 3D CAR CONTAINER */}
       <div className="absolute inset-0 z-0 opacity-90">
+        {!loadCar && (
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="flex flex-col items-center">
+              <div className="w-6 h-6 border-2 border-[#00ff41] border-t-transparent rounded-full animate-spin mb-2" />
+              <div className="text-[#00ff41] font-mono text-[10px] tracking-widest animate-pulse">INITIALIZING 3D ENGINE...</div>
+            </div>
+          </div>
+        )}
         {loadCar && <Car3D carColor="#ff0000" isMobile={isMobile} />}
       </div>
 
