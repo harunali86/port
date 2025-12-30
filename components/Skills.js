@@ -158,7 +158,7 @@ export default function Skills() {
         />
       </motion.div>
 
-      <div className="container mx-auto px-6 md:px-6 relative z-10">
+      <div className="w-full px-2 md:px-6 relative z-10">
         {/* Title Section - Exact Match from section-title.css */}
         <div className="mb-4 md:mb-20 pl-[clamp(16px,8vw,155px)]">
           <div className="relative inline-block">

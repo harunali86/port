@@ -11,6 +11,43 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 4rem;
+  overflow-x: hidden;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* K72 Reference Animations */
+.moveX {
+  animation-name: moveAnimation;
+  animation-duration: 10s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
+
+.moveLink {
+  opacity: 0;
+  transition: all ease 0.3s;
+}
+
+.link:hover .moveLink {
+  opacity: 1;
+}
+
+@keyframes moveAnimation {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 body {

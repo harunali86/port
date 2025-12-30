@@ -3,12 +3,11 @@ import { useEffect } from "react";
 
 export default function Preloader({ onComplete }) {
     useEffect(() => {
-        // Simply wait for the CSS animation to complete (1.5s)
-        // Adaptive Preloader: 0.5s on Mobile (Instant), 1.8s on Desktop (Aesthetic)
-        const duration = window.innerWidth < 768 ? 500 : 1800;
+        // Ultra-fast preloader for best LCP scores (300ms on all devices)
+        const duration = 300;
         const timer = setTimeout(() => {
             if (onComplete) onComplete();
-        }, duration); // Animation duration + buffer
+        }, duration);
         return () => clearTimeout(timer);
     }, [onComplete]);
 
@@ -57,7 +56,7 @@ export default function Preloader({ onComplete }) {
     100% { width: 100%; }
 }
         .animate-progress {
-    animation: progress 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: progress 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 `}</style>
         </m.div>

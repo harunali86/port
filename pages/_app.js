@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import { AnimatePresence, m, LazyMotion, domAnimation } from 'framer-motion';
 import { Inter, Space_Grotesk, JetBrains_Mono } from 'next/font/google';
 import Layout from '../components/Layout';
-import SmoothScroll from '../components/SmoothScroll';
-import Preloader from '../components/Preloader';
-import WhatsAppButton from '../components/WhatsAppButton';
 import dynamic from 'next/dynamic';
 
-// Dynamic import for SoundToggle (client-only)
+// Dynamic imports for non-critical components
+const SmoothScroll = dynamic(() => import('../components/SmoothScroll'), { ssr: false });
+const Preloader = dynamic(() => import('../components/Preloader'), { ssr: false });
+const WhatsAppButton = dynamic(() => import('../components/WhatsAppButton'), { ssr: false });
 const SoundToggle = dynamic(() => import('../components/SoundToggle'), { ssr: false });
 
 

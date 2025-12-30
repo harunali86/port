@@ -12,7 +12,7 @@ export default function LazySection({ children }) {
                     observer.disconnect();
                 }
             },
-            { rootMargin: window.innerWidth < 768 ? '0px' : '200px' }
+            { rootMargin: '200px' }
         );
 
         if (ref.current) {
@@ -24,3 +24,4 @@ export default function LazySection({ children }) {
 
     return <div ref={ref} className="min-h-[10vh]">{isVisible ? children : null}</div>;
 }
+

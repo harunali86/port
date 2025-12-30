@@ -12,10 +12,7 @@ const Car3D = dynamic(() => import('./Car3D'), {
 });
 
 export default function Hero({ isMobile: isMobileSSR }) {
-  // Preload the model immediately
-  useEffect(() => {
-    useGLTF.preload('/models/ferrari_compressed.glb');
-  }, []);
+  // Model preload removed - loads when Car3D mounts after delay
 
   const [loadCar, setLoadCar] = useState(false);
   const [isMobile, setIsMobile] = useState(isMobileSSR);
@@ -160,14 +157,24 @@ export default function Hero({ isMobile: isMobileSSR }) {
                 transition={{ duration: 5, repeat: Infinity }}
               />
 
-              {/* RGB SHIFT ON GLITCH */}
-              <m.div
-                className="absolute inset-0 overflow-hidden pointer-events-none mix-blend-screen"
-                animate={{ x: [0, 5, -5, 0], opacity: [0, 0.4, 0.4, 0] }}
-                transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
-              >
-                <Image src="/portfolio.jpg" alt="" fill sizes="200px" className="object-cover" style={{ filter: 'hue-rotate(120deg) saturate(3)' }} />
-              </m.div>
+              {/* RGB SHIFT ON GLITCH - Optimized for mobile */}
+              {isMobile ? (
+                // Mobile: CSS-only glitch effect (no extra image load)
+                <m.div
+                  className="absolute inset-0 bg-gradient-to-r from-red-500/20 via-transparent to-cyan-500/20 pointer-events-none mix-blend-screen"
+                  animate={{ opacity: [0, 0.3, 0] }}
+                  transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
+                />
+              ) : (
+                // Desktop: Full RGB shift with image
+                <m.div
+                  className="absolute inset-0 overflow-hidden pointer-events-none mix-blend-screen"
+                  animate={{ x: [0, 5, -5, 0], opacity: [0, 0.4, 0.4, 0] }}
+                  transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
+                >
+                  <Image src="/portfolio.jpg" alt="" fill sizes="200px" className="object-cover" style={{ filter: 'hue-rotate(120deg) saturate(3)' }} />
+                </m.div>
+              )}
 
               {/* SIGNAL LOST text - occasional flash */}
               <m.div

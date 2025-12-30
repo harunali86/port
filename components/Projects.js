@@ -441,7 +441,7 @@ export default function ProjectsSection() {
       </m.div>
 
       {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 w-full max-w-7xl px-4 sm:px-6 relative z-10" style={{ perspective: '2000px' }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-10 w-full max-w-[95%] px-2 lg:px-6 relative z-10" style={{ perspective: '2000px' }}>
         {projects.map((project, index) => (
           <CyberCard key={project.title} project={project} index={index} />
         ))}

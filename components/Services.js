@@ -72,7 +72,7 @@ export default function ServicesSection() {
             className="py-32 min-h-screen w-full bg-[#0a0a0a] relative"
         >
             {/* Header */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-16 sm:mb-20">
+            <div className="w-full max-w-[95%] mx-auto px-2 lg:px-4 mb-16 sm:mb-20">
                 <motion.div
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
@@ -93,7 +93,7 @@ export default function ServicesSection() {
             </div>
 
             {/* Service List */}
-            <div className="max-w-6xl mx-auto px-6">
+            <div className="w-full max-w-[95%] mx-auto px-2 lg:px-4">
                 {services.map((service, index) => {
                     const isHovered = hovered === index;
 

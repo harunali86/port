@@ -1,7 +1,7 @@
 // FERRARI FXX-K - CINEMATIC HERO DRIFT ENTRY
 import { useRef, Suspense, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Environment, ContactShadows, useGLTF, Lightformer, OrbitControls } from '@react-three/drei';
+import { Environment, ContactShadows, useGLTF, Lightformer, OrbitControls, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 function FerrariFFXK({ isMobile, ...props }) {
@@ -15,14 +15,19 @@ function FerrariFFXK({ isMobile, ...props }) {
 
         scene.traverse((child) => {
             if (child.isMesh) {
-                child.castShadow = true;
-                child.receiveShadow = true;
+                child.castShadow = !isMobile;
+                child.receiveShadow = !isMobile;
                 if (child.material) {
-                    child.material.envMapIntensity = 2.5;
+                    // UNIVERSAL METALLIC LOOK (User Requirement: "Original Color")
+                    // We rely on the optimized Environment map for reflections on mobile.
+                    child.material.envMapIntensity = isMobile ? 1.5 : 2.5;
+
                     if (child.material.metalness !== undefined) {
+                        // Keep it SHINY
                         child.material.metalness = Math.min(child.material.metalness + 0.3, 0.95);
                     }
                     if (child.material.roughness !== undefined) {
+                        // Keep it SMOOTH
                         child.material.roughness = Math.max(child.material.roughness - 0.1, 0.05);
                     }
                 }
@@ -99,15 +104,27 @@ function FerrariFFXK({ isMobile, ...props }) {
 function ShowroomLighting({ isMobile }) {
     return (
         <>
-            <ambientLight intensity={0.5} />
-            <spotLight position={[12, 18, 12]} angle={0.35} penumbra={1} intensity={4} castShadow={!isMobile} color="#ffffff" shadow-mapSize={[512, 512]} />
-            <spotLight position={[-10, 14, 8]} angle={0.45} penumbra={1} intensity={2.5} color="#fff5e6" />
-            <directionalLight position={[0, 10, -15]} intensity={2.5} color="#ffffff" />
-            <pointLight position={[0, 5, 10]} intensity={1} color="#ff6666" />
-            <Environment preset="city">
-                <Lightformer form="rect" intensity={6} position={[15, 7, 0]} scale={[30, 10, 1]} rotation={[0, Math.PI / 2, 0]} color="#ffffff" />
-                <Lightformer form="rect" intensity={5} position={[-15, 7, 5]} scale={[30, 10, 1]} rotation={[0, -Math.PI / 2, 0]} color="#ffffff" />
-                <Lightformer form="ring" intensity={3} position={[0, 15, 0]} scale={[20, 20, 1]} rotation={[Math.PI / 2, 0, 0]} color="#ffffff" />
+            {/* Mobile Lighting - BALANCED for Metallic Look */}
+            <ambientLight intensity={isMobile ? 2.0 : 0.5} />
+            <hemisphereLight intensity={isMobile ? 1.0 : 0} groundColor="#444444" skyColor="#ffffff" />
+            <spotLight position={[10, 10, 10]} angle={0.5} penumbra={1} intensity={isMobile ? 5 : 4} castShadow={!isMobile} color="#ffffff" />
+            <directionalLight position={[0, 5, 10]} intensity={isMobile ? 3 : 0} color="#ffffff" />
+            <pointLight position={[-5, 5, -5]} intensity={isMobile ? 3 : 1} color="#ff6666" />
+
+            {/* ENVIRONMENT IS CRITICAL FOR METALLIC LOOK */}
+            {/* Replaced 'city' preset with PROCEDURAL environment (Lightformers) to fix "Failed to fetch" error on localhost */}
+            {/* This generates an HDR map on the fly, requiring no internet logic. */}
+
+            <Environment resolution={isMobile ? 128 : 256}>
+                {/* Ceiling Light */}
+                <Lightformer form="rect" intensity={isMobile ? 2 : 5} position={[0, 5, 0]} scale={[10, 10, 1]} rotation={[-Math.PI / 2, 0, 0]} color="#ffffff" />
+
+                {/* Side Lights (Warm/Cold) - Reduced Blue Intensity */}
+                <Lightformer form="rect" intensity={isMobile ? 1 : 2} position={[-5, 0, -5]} scale={[10, 5, 1]} color="#ff4444" />
+                <Lightformer form="rect" intensity={isMobile ? 0.5 : 2} position={[5, 0, -5]} scale={[10, 5, 1]} color="#ccccff" />
+
+                {/* Front Fill */}
+                <Lightformer form="ring" intensity={isMobile ? 1 : 1} position={[0, 0, 5]} scale={[10, 10, 1]} color="#ffffff" />
             </Environment>
         </>
     );
@@ -173,17 +190,25 @@ export default function Car3D({ isMobile }) {
 
             <Canvas
                 shadows={!isMobile} // Disable shadows globally on mobile
-                dpr={isMobile ? 1 : [1, 1.5]} // Force 1x DPR on mobile
+                dpr={isMobile ? 0.6 : [1, 1.5]} // AGGRESSIVE OPTIMIZATION: 0.6x resolution on mobile (crisp enough on small screens, huge perf gain)
                 camera={{ position: [0, 0.5, 8.5], fov: 50 }}
                 gl={{
-                    antialias: true,
+                    antialias: !isMobile, // Disable MSAA on mobile for raw speed
                     alpha: true,
                     toneMapping: THREE.ACESFilmicToneMapping,
                     toneMappingExposure: 1.2,
-                    powerPreference: "high-performance"
+                    powerPreference: "high-performance",
+                    precision: isMobile ? "lowp" : "mediump" // Force low precision shaders on mobile
                 }}
             >
-                <Suspense fallback={null}>
+                <Suspense fallback={
+                    <Html center>
+                        <div className="flex flex-col items-center justify-center w-48">
+                            <div className="w-6 h-6 border-2 border-[#00ff41] border-t-transparent rounded-full animate-spin mb-2" />
+                            <div className="text-[#00ff41] font-mono text-[10px] tracking-widest animate-pulse">LOADING MODEL...</div>
+                        </div>
+                    </Html>
+                }>
                     <OrbitControls
                         enableZoom={true}
                         enablePan={!isMobile}
