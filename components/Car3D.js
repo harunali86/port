@@ -135,21 +135,17 @@ function ShowroomLighting({ isMobile }) {
             {/* Replaced 'city' preset with PROCEDURAL environment (Lightformers) to fix "Failed to fetch" error on localhost */}
             {/* This generates an HDR map on the fly, requiring no internet logic. */}
 
-            {/* Reduced resolution for memory: 64 on mobile, 128 on desktop */}
-            <Environment resolution={isMobile ? 64 : 128}>
+            {/* Reduced resolution for memory: 128 on mobile, 256 on desktop */}
+            <Environment resolution={isMobile ? 128 : 256}>
                 {/* Ceiling Light */}
                 <Lightformer form="rect" intensity={isMobile ? 2 : 5} position={[0, 5, 0]} scale={[10, 10, 1]} rotation={[-Math.PI / 2, 0, 0]} color="#ffffff" />
 
-                {/* Side Lights (Warm/Cold) - Reduced for mobile */}
-                {!isMobile && (
-                    <>
-                        <Lightformer form="rect" intensity={2} position={[-5, 0, -5]} scale={[10, 5, 1]} color="#ff4444" />
-                        <Lightformer form="rect" intensity={2} position={[5, 0, -5]} scale={[10, 5, 1]} color="#ccccff" />
-                    </>
-                )}
+                {/* Side Lights (Warm/Cold) - Lower intensity on mobile to fix texture */}
+                <Lightformer form="rect" intensity={isMobile ? 1 : 2} position={[-5, 0, -5]} scale={[10, 5, 1]} color="#ff4444" />
+                <Lightformer form="rect" intensity={isMobile ? 0.5 : 2} position={[5, 0, -5]} scale={[10, 5, 1]} color="#ccccff" />
 
                 {/* Front Fill */}
-                <Lightformer form="ring" intensity={isMobile ? 1 : 1} position={[0, 0, 5]} scale={[10, 10, 1]} color="#ffffff" />
+                <Lightformer form="ring" intensity={1} position={[0, 0, 5]} scale={[10, 10, 1]} color="#ffffff" />
             </Environment>
         </>
     );
