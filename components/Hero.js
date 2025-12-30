@@ -2,20 +2,15 @@ import { useState, useEffect } from 'react';
 import Image from "next/image";
 import { m } from "framer-motion";
 import dynamic from "next/dynamic";
-import { useGLTF } from '@react-three/drei';
 
-// Dynamic import for 3D Car with delayed loading for LCP optimization
+// Dynamic import for 3D Car - keeps Three.js out of main bundle
 const Car3D = dynamic(() => import('./Car3D'), {
-  ssr: false,
   ssr: false,
   loading: () => <div className="w-full h-full flex items-center justify-center text-[#00ff41] font-mono text-xs animate-pulse">LOADING ASSETS...</div>
 });
 
 export default function Hero({ isMobile: isMobileSSR }) {
-  // Preload the model immediately for fast loading
-  useEffect(() => {
-    useGLTF.preload('/models/ferrari_compressed.glb');
-  }, []);
+  // No preload here - model loads with Car3D component to keep bundle small
 
   const [loadCar, setLoadCar] = useState(false);
   const [isMobile, setIsMobile] = useState(isMobileSSR);
@@ -270,11 +265,12 @@ export default function Hero({ isMobile: isMobileSSR }) {
         </div>
 
         {/* BUTTONS */}
-        <div className="flex gap-4 mb-4 pointer-events-auto">
-          <a href="#projects" className="px-6 py-3 bg-[#00ff00] text-black font-mono font-bold text-sm hover:bg-white transition-colors">
+        {/* BUTTONS - Responsive with flex-wrap */}
+        <div className="flex flex-wrap gap-2 sm:gap-4 mb-4 pointer-events-auto">
+          <a href="#projects" className="px-4 py-2 sm:px-6 sm:py-3 bg-[#00ff00] text-black font-mono font-bold text-xs sm:text-sm hover:bg-white transition-colors">
             [PROJECTS]
           </a>
-          <a href="#contact" className="px-6 py-3 border border-[#00ff00] text-[#00ff00] font-mono text-sm hover:bg-[#00ff00]/10 transition-colors">
+          <a href="#contact" className="px-4 py-2 sm:px-6 sm:py-3 border border-[#00ff00] text-[#00ff00] font-mono text-xs sm:text-sm hover:bg-[#00ff00]/10 transition-colors">
             [CONTACT]
           </a>
           <a
@@ -286,7 +282,7 @@ export default function Hero({ isMobile: isMobileSSR }) {
                 body: JSON.stringify({ type: 'resume' })
               });
             }}
-            className="px-6 py-3 border border-white/20 text-white font-mono text-sm hover:bg-white/10 transition-colors flex items-center gap-2 group cursor-pointer"
+            className="px-4 py-2 sm:px-6 sm:py-3 border border-white/20 text-white font-mono text-xs sm:text-sm hover:bg-white/10 transition-colors flex items-center gap-2 group cursor-pointer"
           >
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
             [DOWNLOAD CV]
