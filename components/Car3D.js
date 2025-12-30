@@ -93,6 +93,26 @@ function FerrariFFXK({ isMobile, ...props }) {
         }
     });
 
+    // Cleanup on unmount to free GPU memory
+    useEffect(() => {
+        return () => {
+            if (scene) {
+                scene.traverse((child) => {
+                    if (child.isMesh) {
+                        child.geometry?.dispose();
+                        if (child.material) {
+                            if (Array.isArray(child.material)) {
+                                child.material.forEach(m => m.dispose());
+                            } else {
+                                child.material.dispose();
+                            }
+                        }
+                    }
+                });
+            }
+        };
+    }, [scene]);
+
     return (
         <group ref={carRef} {...props}>
             <primitive object={scene} />
@@ -115,13 +135,18 @@ function ShowroomLighting({ isMobile }) {
             {/* Replaced 'city' preset with PROCEDURAL environment (Lightformers) to fix "Failed to fetch" error on localhost */}
             {/* This generates an HDR map on the fly, requiring no internet logic. */}
 
-            <Environment resolution={isMobile ? 128 : 256}>
+            {/* Reduced resolution for memory: 64 on mobile, 128 on desktop */}
+            <Environment resolution={isMobile ? 64 : 128}>
                 {/* Ceiling Light */}
                 <Lightformer form="rect" intensity={isMobile ? 2 : 5} position={[0, 5, 0]} scale={[10, 10, 1]} rotation={[-Math.PI / 2, 0, 0]} color="#ffffff" />
 
-                {/* Side Lights (Warm/Cold) - Reduced Blue Intensity */}
-                <Lightformer form="rect" intensity={isMobile ? 1 : 2} position={[-5, 0, -5]} scale={[10, 5, 1]} color="#ff4444" />
-                <Lightformer form="rect" intensity={isMobile ? 0.5 : 2} position={[5, 0, -5]} scale={[10, 5, 1]} color="#ccccff" />
+                {/* Side Lights (Warm/Cold) - Reduced for mobile */}
+                {!isMobile && (
+                    <>
+                        <Lightformer form="rect" intensity={2} position={[-5, 0, -5]} scale={[10, 5, 1]} color="#ff4444" />
+                        <Lightformer form="rect" intensity={2} position={[5, 0, -5]} scale={[10, 5, 1]} color="#ccccff" />
+                    </>
+                )}
 
                 {/* Front Fill */}
                 <Lightformer form="ring" intensity={isMobile ? 1 : 1} position={[0, 0, 5]} scale={[10, 10, 1]} color="#ffffff" />
