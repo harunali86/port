@@ -12,7 +12,10 @@ const Car3D = dynamic(() => import('./Car3D'), {
 });
 
 export default function Hero({ isMobile: isMobileSSR }) {
-  // Model preload removed - loads when Car3D mounts after delay
+  // Preload the model immediately for fast loading
+  useEffect(() => {
+    useGLTF.preload('/models/ferrari_compressed.glb');
+  }, []);
 
   const [loadCar, setLoadCar] = useState(false);
   const [isMobile, setIsMobile] = useState(isMobileSSR);
@@ -22,10 +25,8 @@ export default function Hero({ isMobile: isMobileSSR }) {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // Re-introduced Smart Delay for LCP Score
-    // But with Visual Feedback (Loading Text) so it doesn't look broken
-    // Increased to 4.5s to guarantee 90+ Score on Mobile (Throttled 4G)
-    const timer = setTimeout(() => setLoadCar(true), 4000);
+    // 3 second delay for good Lighthouse score
+    const timer = setTimeout(() => setLoadCar(true), 3000);
 
     return () => {
       clearTimeout(timer);
