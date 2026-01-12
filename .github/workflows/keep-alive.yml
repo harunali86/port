@@ -1,0 +1,18 @@
+name: Keep Supabase Alive
+
+on:
+  schedule:
+    # Runs every 24 hours at midnight UTC
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  ping-database:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Health Endpoint
+        run: |
+          echo "Pinging portfolio health endpoint..."
+          curl -s -o /dev/null -w "%{http_code}" https://harun-portfolio.vercel.app/api/health || true
+          echo ""
+          echo "Health check completed at $(date)"
