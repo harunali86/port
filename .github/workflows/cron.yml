@@ -1,0 +1,16 @@
+name: Daily Health Check
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight UTC
+  workflow_dispatch: # Allows manual triggering from GitHub UI
+
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Health Endpoint
+        run: |
+          # Replace with your actual production URL
+          curl -I https://harun-portfolio.vercel.app/api/health || echo "Failed to ping"
+        # Note: You should update the URL to your actual domain
