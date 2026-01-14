@@ -274,7 +274,8 @@ export default function Hero({ isMobile: isMobileSSR }) {
             [CONTACT]
           </a>
           <a
-            href="/resume.pdf?v=2"
+            href="https://qbrkskutrlbdclhpfdwe.supabase.co/storage/v1/object/public/portfolio-assets/resume.pdf"
+            target="_blank"
             onClick={() => {
               fetch('/api/analytics/track', {
                 method: 'POST',
