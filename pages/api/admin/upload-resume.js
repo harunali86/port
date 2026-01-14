@@ -17,14 +17,11 @@ export default async function handler(req, res) {
         const form = formidable({
             uploadDir: path.join(process.cwd(), 'public'),
             keepExtensions: true,
-            filename: (name, ext, part, form) => {
-                return 'resume.pdf'; // Force filename
-            }
+            maxFileSize: 5 * 1024 * 1024, // 5MB limit
         });
 
         const [fields, files] = await form.parse(req);
 
-        // In v3, files.resume is an array
         const file = files.resume?.[0];
 
         if (!file) {
@@ -35,14 +32,13 @@ export default async function handler(req, res) {
         const oldPath = file.filepath;
         const newPath = path.join(process.cwd(), 'public', 'resume.pdf');
 
-        fs.renameSync(oldPath, newPath);
-
-        // Update DB (Optional, but good for tracking)
-        // await prisma.siteConfig.upsert(...) - skipping strict DB enforcement for static file speed
+        // Use copy + unlink to avoid cross-device rename errors
+        fs.copyFileSync(oldPath, newPath);
+        fs.unlinkSync(oldPath);
 
         res.status(200).json({ message: 'Resume uploaded successfully!', url: '/resume.pdf' });
     } catch (error) {
-        console.error(error);
+        console.error("Upload error:", error);
         res.status(500).json({ error: 'Failed to save file' });
     }
 }
