@@ -10,6 +10,7 @@ export default function AdminDashboard() {
     const [posts, setPosts] = useState([]);
     const [stats, setStats] = useState({ visits: 0, resume: 0, blogs: 0 });
     const [loading, setLoading] = useState(true);
+    const [uploading, setUploading] = useState(false);
 
     useEffect(() => {
         if (authorized) {
@@ -68,19 +69,37 @@ export default function AdminDashboard() {
                             <span className="text-xs text-gray-500 block">CURRENT VERSION</span>
                             <span className="text-sm font-mono text-[#00ff41]">v2.4.0 (Live)</span>
                         </div>
-                        <label className="cursor-pointer bg-white text-black px-4 py-2 rounded-lg font-bold text-sm hover:bg-gray-200 transition flex items-center gap-2">
-                            <Download className="w-4 h-4" /> Update Resume
+                        <label className={`cursor-pointer bg-white text-black px-4 py-2 rounded-lg font-bold text-sm hover:bg-gray-200 transition flex items-center gap-2 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+                            <Download className="w-4 h-4" /> {uploading ? 'Syncing...' : 'Update Resume'}
                             <input
                                 type="file"
                                 className="hidden"
                                 accept="application/pdf"
+                                disabled={uploading}
                                 onChange={async (e) => {
                                     if (!e.target.files?.[0]) return;
+                                    setUploading(true);
                                     const file = e.target.files[0];
                                     const formData = new FormData();
                                     formData.append('resume', file);
-                                    const res = await fetch('/api/admin/upload-resume', { method: 'POST', body: formData });
-                                    if (res.ok) alert("Resume Sync Complete");
+
+                                    try {
+                                        const res = await fetch('/api/admin/upload-resume', { method: 'POST', body: formData });
+                                        const data = await res.json();
+                                        if (res.ok) {
+                                            alert("Resume Sync Complete! Link: " + data.url);
+                                        } else {
+                                            alert("Upload Failed: " + (data.error || res.statusText));
+                                            console.error("Upload failed:", data);
+                                        }
+                                    } catch (err) {
+                                        alert("Network Error: " + err.message);
+                                        console.error(err);
+                                    } finally {
+                                        setUploading(false);
+                                        // Reset input
+                                        e.target.value = null;
+                                    }
                                 }}
                             />
                         </label>
