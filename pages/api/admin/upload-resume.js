@@ -51,6 +51,20 @@ export default async function handler(req, res) {
         // Determine file extension for storage
         const storageFilename = `resume${fileExtension}`;
 
+        // SIMPLIFICATION: Delete ALL existing resume files first to avoid conflict
+        try {
+            const { data: existingFiles } = await supabase.storage.from('portfolio-assets').list();
+            const filesToDelete = existingFiles
+                .filter(f => f.name.startsWith('resume'))
+                .map(f => f.name);
+
+            if (filesToDelete.length > 0) {
+                await supabase.storage.from('portfolio-assets').remove(filesToDelete);
+            }
+        } catch (e) {
+            console.error("Cleanup error (ignorable):", e);
+        }
+
         // Upload to Supabase Storage
         const { data, error } = await supabase
             .storage

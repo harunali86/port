@@ -3,14 +3,18 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AdminSidebar from '@/components/AdminSidebar';
 import { useAdminAuth } from '@/hooks/useAdminAuth';
-import { Eye, Clock, Trash2, Edit, Download } from 'lucide-react';
+import { Eye, Clock, Trash2, Edit, Download, Menu } from 'lucide-react';
 
 export default function AdminDashboard() {
-    const { authorized, loading: authLoading } = useAdminAuth();
+    const { authorized, loading: authLoading, login } = useAdminAuth();
     const [posts, setPosts] = useState([]);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
     const [stats, setStats] = useState({ visits: 0, resume: 0, blogs: 0 });
+    const [curResume, setCurResume] = useState(null);
     const [loading, setLoading] = useState(true);
     const [uploading, setUploading] = useState(false);
+    const [pinInput, setPinInput] = useState('');
+    const [error, setError] = useState('');
 
     useEffect(() => {
         if (authorized) {
@@ -18,16 +22,27 @@ export default function AdminDashboard() {
         }
     }, [authorized]);
 
+    const handleLogin = (e) => {
+        e.preventDefault();
+        if (login(pinInput)) {
+            setError('');
+        } else {
+            setError('Invalid PIN');
+        }
+    };
+
     async function fetchData() {
         setLoading(true);
         try {
-            const [postsRes, statsRes] = await Promise.all([
+            const [postsRes, statsRes, resumeRes] = await Promise.all([
                 fetch('/api/admin/posts'),
-                fetch('/api/admin/stats')
+                fetch('/api/admin/stats'),
+                fetch('/api/admin/get-resume')
             ]);
 
             if (postsRes.ok) setPosts(await postsRes.json());
             if (statsRes.ok) setStats(await statsRes.json());
+            if (resumeRes.ok) setCurResume(await resumeRes.json());
         } catch (e) {
             console.error("Network error:", e);
         }
@@ -43,31 +58,75 @@ export default function AdminDashboard() {
         if (res.ok) setPosts(posts.filter(p => p.id !== id));
     }
 
-    if (authLoading || !authorized) return <div className="min-h-screen bg-black text-[#00ff41] flex items-center justify-center font-mono">AUTHENTICATING...</div>;
+    if (authLoading) return <div className="min-h-screen bg-black text-[#00ff41] flex items-center justify-center font-mono animate-pulse">LOADING SYSTEM...</div>;
+
+    if (!authorized) {
+        return (
+            <div className="min-h-screen bg-black text-white flex items-center justify-center font-mono">
+                <form onSubmit={handleLogin} className="flex flex-col gap-4 border border-[#00ff41] p-8 bg-black/50 backdrop-blur rounded-xl shadow-[0_0_20px_rgba(0,255,65,0.2)]">
+                    <h1 className="text-2xl text-[#00ff41] font-bold text-center tracking-wider">ADMIN ACCESS</h1>
+                    <div className="h-px bg-[#00ff41]/50 w-full my-2"></div>
+                    <input
+                        type="password"
+                        value={pinInput}
+                        onChange={(e) => setPinInput(e.target.value)}
+                        placeholder="ENTER SECURITY PIN"
+                        className="bg-black/50 border border-gray-700 p-3 text-white focus:border-[#00ff41] outline-none text-center rounded transition-all focus:shadow-[0_0_10px_rgba(0,255,65,0.3)]"
+                        autoFocus
+                    />
+                    {error && <p className="text-red-500 text-sm text-center font-bold animate-pulse">{error}</p>}
+                    <button type="submit" className="bg-[#00ff41] text-black p-3 font-bold hover:bg-[#00cc33] rounded transition-all shadow-lg hover:shadow-[0_0_15px_#00ff41]">
+                        UNLOCK SYSTEM
+                    </button>
+                    <a href="/" className="text-xs text-gray-500 text-center hover:text-white mt-4 hover:underline">Return to Portfolio</a>
+                </form>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen bg-black text-white font-sans flex">
             {/* SIDEBAR */}
-            <AdminSidebar active="Dashboard" />
+            <AdminSidebar
+                active="Dashboard"
+                isOpen={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+            />
 
             {/* MAIN CONTENT */}
-            <div className="flex-1 ml-64 p-10 relative overflow-hidden">
+            <div className="flex-1 md:ml-64 ml-0 p-4 md:p-10 relative overflow-hidden transition-all duration-300">
                 {/* Background Grid */}
                 <div className="absolute inset-0 opacity-[0.05]"
                     style={{ backgroundImage: 'linear-gradient(#00ff41 1px, transparent 1px), linear-gradient(90deg, #00ff41 1px, transparent 1px)', backgroundSize: '40px 40px' }}
                 />
 
-                <header className="flex justify-between items-center mb-12 relative z-10">
-                    <div>
-                        <h1 className="text-4xl font-bold text-white mb-2">Command Center</h1>
-                        <p className="text-gray-400">Welcome back, Administrator.</p>
+                <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 relative z-10 gap-4">
+                    <div className="flex items-center gap-4">
+                        {/* Mobile Menu Button */}
+                        <button
+                            className="md:hidden text-[#00ff41] p-2 hover:bg-white/10 rounded"
+                            onClick={() => setSidebarOpen(true)}
+                        >
+                            <Menu className="w-6 h-6" />
+                        </button>
+
+                        <div>
+                            <h1 className="text-2xl md:text-4xl font-bold text-white mb-1 md:mb-2">Command Center</h1>
+                            <p className="text-xs md:text-base text-gray-400">Welcome back, Administrator.</p>
+                        </div>
                     </div>
 
                     {/* RESUME UPLOAD WIDGET */}
                     <div className="flex gap-4 items-center bg-[#111] border border-white/10 p-2 rounded-xl backdrop-blur-md">
-                        <div className="px-4 border-r border-white/10">
-                            <span className="text-xs text-gray-500 block">CURRENT VERSION</span>
-                            <span className="text-sm font-mono text-[#00ff41]">v2.4.0 (Live)</span>
+                        <div className="px-4 border-r border-white/10 text-right">
+                            <span className="text-xs text-gray-500 block">CURRENT RESUME</span>
+                            {curResume?.exists ? (
+                                <a href={curResume.url} target="_blank" className="text-sm font-mono text-[#00ff41] hover:underline flex items-center justify-end gap-2 group">
+                                    {curResume.name} <Eye className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </a>
+                            ) : (
+                                <span className="text-sm font-mono text-gray-500">Not Uploaded</span>
+                            )}
                         </div>
                         <label className={`cursor-pointer bg-white text-black px-4 py-2 rounded-lg font-bold text-sm hover:bg-gray-200 transition flex items-center gap-2 ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
                             <Download className="w-4 h-4" /> {uploading ? 'Syncing...' : 'Update Resume'}
@@ -87,17 +146,15 @@ export default function AdminDashboard() {
                                         const res = await fetch('/api/admin/upload-resume', { method: 'POST', body: formData });
                                         const data = await res.json();
                                         if (res.ok) {
-                                            alert("Resume Sync Complete! Link: " + data.url);
+                                            alert("Resume Sync Complete!");
+                                            fetchData(); // Refresh info
                                         } else {
                                             alert("Upload Failed: " + (data.error || res.statusText));
-                                            console.error("Upload failed:", data);
                                         }
                                     } catch (err) {
                                         alert("Network Error: " + err.message);
-                                        console.error(err);
                                     } finally {
                                         setUploading(false);
-                                        // Reset input
                                         e.target.value = null;
                                     }
                                 }}

@@ -8,28 +8,22 @@ export function useAdminAuth() {
     const router = useRouter();
 
     useEffect(() => {
-        // Check session storage first
+        // Check session storage
         const isAuth = sessionStorage.getItem('admin_auth') === 'true';
-
         if (isAuth) {
             setAuthorized(true);
-            setLoading(false);
-        } else {
-            // If not authenticated, prompt
-            // We use a small timeout to avoid hydration mismatch or immediate prompt overlap
-            setTimeout(() => {
-                const pin = prompt("Enter Admin PIN:");
-                if (pin === "HARRY@123") {
-                    sessionStorage.setItem('admin_auth', 'true');
-                    setAuthorized(true);
-                } else {
-                    alert("Access Denied");
-                    window.location.href = "/";
-                }
-                setLoading(false);
-            }, 100);
         }
-    }, [router]);
+        setLoading(false);
+    }, []);
 
-    return { authorized, loading };
+    const login = (pin) => {
+        if (pin === "HARRY@123") {
+            sessionStorage.setItem('admin_auth', 'true');
+            setAuthorized(true);
+            return true;
+        }
+        return false;
+    };
+
+    return { authorized, loading, login };
 }

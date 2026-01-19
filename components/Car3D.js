@@ -1,13 +1,56 @@
-// FERRARI FXX-K - CINEMATIC HERO DRIFT ENTRY
+// FERRARI FXX-K - CINEMATIC HERO DRIFT ENTRY WITH CAR-BODY DRAG
 import { useRef, Suspense, useEffect, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Environment, ContactShadows, useGLTF, Lightformer, OrbitControls, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
-function FerrariFFXK({ isMobile, ...props }) {
+function FerrariFFXK({ isMobile, controlsRef, ...props }) {
     // Uses compressed model for 50% faster load
     const { scene } = useGLTF('/models/ferrari_compressed.glb');
     const carRef = useRef();
+    const [isDragging, setIsDragging] = useState(false);
+    const dragStart = useRef({ x: 0, y: 0 });
+    const { camera, gl } = useThree();
+    const zoomTimeout = useRef(null);
+
+    // Global Drag Handlers (Fix for "Touch Hold" issue)
+    useEffect(() => {
+        const handleGlobalMove = (e) => {
+            if (!isDragging) return;
+
+            const dx = e.clientX - dragStart.current.x;
+            const dy = e.clientY - dragStart.current.y;
+
+            if (controlsRef?.current) {
+                try {
+                    const currentAzimuth = controlsRef.current.getAzimuthalAngle();
+                    const currentPolar = controlsRef.current.getPolarAngle();
+                    controlsRef.current.setAzimuthalAngle(currentAzimuth - dx * 0.005);
+                    controlsRef.current.setPolarAngle(currentPolar - dy * 0.005);
+                    controlsRef.current.update();
+                } catch (err) {
+                    // Fallback
+                }
+            }
+            dragStart.current = { x: e.clientX, y: e.clientY };
+        };
+
+        const handleGlobalUp = () => {
+            setIsDragging(false);
+            document.body.style.cursor = 'grab';
+            if (controlsRef?.current) controlsRef.current.autoRotate = true;
+        };
+
+        if (isDragging) {
+            window.addEventListener('pointermove', handleGlobalMove);
+            window.addEventListener('pointerup', handleGlobalUp);
+        }
+
+        return () => {
+            window.removeEventListener('pointermove', handleGlobalMove);
+            window.removeEventListener('pointerup', handleGlobalUp);
+        };
+    }, [isDragging]);
 
     // Material Enhancement
     useEffect(() => {
@@ -115,7 +158,44 @@ function FerrariFFXK({ isMobile, ...props }) {
 
     return (
         <group ref={carRef} {...props}>
-            <primitive object={scene} />
+            <primitive
+                object={scene}
+                onPointerDown={(e) => {
+                    e.stopPropagation();
+                    // CRITICAL: Capture pointer to prevent browser interactions/loss of focus
+                    e.target.setPointerCapture(e.pointerId);
+
+                    setIsDragging(true);
+                    dragStart.current = { x: e.clientX, y: e.clientY };
+                    document.body.style.cursor = 'grabbing';
+                    if (controlsRef?.current) controlsRef.current.autoRotate = false;
+                }}
+                // pointerMove and pointerUp are handled globally via window listeners
+                // but we still capture the pointer on Down to ensure we GET those events.
+
+                onPointerUp={(e) => {
+                    e.stopPropagation();
+                    e.target.releasePointerCapture(e.pointerId);
+                    setIsDragging(false);
+                    document.body.style.cursor = 'grab';
+                    if (controlsRef?.current) controlsRef.current.autoRotate = true;
+                }}
+                onPointerOver={() => {
+                    document.body.style.cursor = 'grab';
+                    // Clear any pending disable timer
+                    if (zoomTimeout.current) clearTimeout(zoomTimeout.current);
+                    if (controlsRef?.current) controlsRef.current.enableZoom = true;
+                }}
+                onPointerOut={() => {
+                    if (!isDragging) document.body.style.cursor = 'auto';
+
+                    // Add delay before disabling zoom (Grace Period)
+                    // This prevents zoom from cutting out if cursor briefly leaves mesh
+                    zoomTimeout.current = setTimeout(() => {
+                        if (controlsRef?.current) controlsRef.current.enableZoom = false;
+                    }, 500); // 0.5s grace period
+                }}
+            />
         </group>
     );
 }
@@ -204,8 +284,19 @@ export default function Car3D({ isMobile }) {
     const carPosition = isMobile ? [0, -1.5, 0] : [0, -1.0, 0.5]; // Visible in viewport
     const shadowRes = isMobile ? 128 : 256; // Optimized shadows (256 is enough)
 
+    // Controls ref for manual interaction
+    const controlsRef = useRef();
+
     return (
-        <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+        <div style={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+            touchAction: 'none',   // Prevent scroll
+            userSelect: 'none',    // Prevent text selection
+            WebkitUserSelect: 'none',
+            WebkitTouchCallout: 'none' // Prevent iOS tap callouts
+        }}>
             {/* Sound toggle button */}
             <SoundButton />
 
@@ -231,23 +322,27 @@ export default function Car3D({ isMobile }) {
                     </Html>
                 }>
                     <OrbitControls
-                        enableZoom={true}
-                        enablePan={!isMobile}
-                        enableRotate={true}
+                        ref={controlsRef}
+                        makeDefault
+                        enableZoom={false}
+                        enablePan={false}
+                        enableRotate={false} // Disable canvas drag - we manage this manually via car mesh
                         enableDamping={true}
-                        dampingFactor={0.05}
+                        dampingFactor={0.08}
                         autoRotate={true}
-                        autoRotateSpeed={isMobile ? 0.5 : 2.0} // Very slow rotate on mobile
-                        target={[0, -1.0, 0.5]}
-                        minDistance={5}
-                        maxDistance={25}
-                        minPolarAngle={0}
-                        maxPolarAngle={Math.PI / 2}
+                        autoRotateSpeed={1.5}
+                        rotateSpeed={0.5}
+                        zoomSpeed={0.6}
+                        minPolarAngle={Math.PI / 4.5}
+                        maxPolarAngle={Math.PI / 2 + 0.25}
+                        minDistance={4}
+                        maxDistance={15}
+                        target={[0, 0, 0]}
                     />
                     <ShowroomLighting isMobile={isMobile} />
 
-                    {/* Pass logic-driven props to the car */}
-                    <FerrariFFXK position={carPosition} scale={carScale} rotation={[0, -Math.PI * 0.9, 0]} isMobile={isMobile} />
+                    {/* Pass logic-driven props to the car, including controlsRef */}
+                    <FerrariFFXK position={carPosition} scale={carScale} rotation={[0, -Math.PI * 0.9, 0]} isMobile={isMobile} controlsRef={controlsRef} />
 
                     {/* Shadows are KILLING the mobile score. Disable them. */}
                     {!isMobile && (
@@ -265,4 +360,3 @@ export default function Car3D({ isMobile }) {
         </div>
     );
 }
-
