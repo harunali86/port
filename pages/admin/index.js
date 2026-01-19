@@ -74,7 +74,7 @@ export default function AdminDashboard() {
                             <input
                                 type="file"
                                 className="hidden"
-                                accept="application/pdf"
+                                accept=".pdf,.docx,.doc,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/msword"
                                 disabled={uploading}
                                 onChange={async (e) => {
                                     if (!e.target.files?.[0]) return;
