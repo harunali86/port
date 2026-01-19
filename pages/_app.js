@@ -6,7 +6,7 @@ import Layout from '../components/Layout';
 import dynamic from 'next/dynamic';
 
 // Dynamic imports for non-critical components
-const SmoothScroll = dynamic(() => import('../components/SmoothScroll'), { ssr: false });
+// Removed SmoothScroll - it was blocking initial render
 const Preloader = dynamic(() => import('../components/Preloader'), { ssr: false });
 const WhatsAppButton = dynamic(() => import('../components/WhatsAppButton'), { ssr: false });
 const SoundToggle = dynamic(() => import('../components/SoundToggle'), { ssr: false });
@@ -48,33 +48,32 @@ function MyApp({ Component, pageProps, router }) {
 
   return (
     <LazyMotion features={domAnimation}>
-      <SmoothScroll>
-        <div className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}>
-          {/* Preloader - AnimatePresence handles the exit */}
-          <AnimatePresence mode="wait">
-            {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
-          </AnimatePresence>
+      {/* Removed SmoothScroll wrapper - native scroll is fast enough */}
+      <div className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}>
+        {/* Preloader - AnimatePresence handles the exit */}
+        <AnimatePresence mode="wait">
+          {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
+        </AnimatePresence>
 
-          {/* WhatsApp Floating Button */}
-          {!isLoading && <WhatsAppButton />}
+        {/* WhatsApp Floating Button */}
+        {!isLoading && <WhatsAppButton />}
 
-          {/* Sound Toggle Button */}
-          {!isLoading && <SoundToggle />}
+        {/* Sound Toggle Button */}
+        {!isLoading && <SoundToggle />}
 
 
-          {/* Main Content - Always rendered behind preloader for fast LCP */}
-          <div className="relative z-0">
-            <m.div
-              key={router?.pathname || 'main'}
-              className="min-h-screen"
-            >
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
-            </m.div>
-          </div>
+        {/* Main Content - Always rendered behind preloader for fast LCP */}
+        <div className="relative z-0">
+          <m.div
+            key={router?.pathname || 'main'}
+            className="min-h-screen"
+          >
+            <Layout>
+              <Component {...pageProps} />
+            </Layout>
+          </m.div>
         </div>
-      </SmoothScroll>
+      </div>
     </LazyMotion>
   );
 }

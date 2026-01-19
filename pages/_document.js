@@ -14,6 +14,19 @@ export default function Document() {
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://images.unsplash.com" />
+
+        {/* Preconnect to Supabase for faster API/storage access */}
+        <link rel="preconnect" href="https://qbrkskutrlbdclhpfdwe.supabase.co" />
+        <link rel="dns-prefetch" href="https://qbrkskutrlbdclhpfdwe.supabase.co" />
+
+        {/* Preload critical Ferrari 3D model */}
+        <link
+          rel="preload"
+          href="/models/ferrari_compressed.glb"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:wght@400;700&display=swap" rel="stylesheet" />
       </Head>

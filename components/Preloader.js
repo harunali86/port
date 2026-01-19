@@ -3,8 +3,9 @@ import { useEffect } from "react";
 
 export default function Preloader({ onComplete }) {
     useEffect(() => {
-        // Ultra-fast preloader for best LCP scores (300ms on all devices)
-        const duration = 300;
+        // Instant preloader - no artificial delay
+        // Content shows as soon as React hydrates
+        const duration = 0;
         const timer = setTimeout(() => {
             if (onComplete) onComplete();
         }, duration);

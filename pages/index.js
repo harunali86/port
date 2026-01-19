@@ -14,15 +14,13 @@ const FAQ = dynamic(() => import('../components/FAQ'), { ssr: false })
 const Contact = dynamic(() => import('../components/Contact'), { ssr: false })
 const Testimonials = dynamic(() => import('../components/Testimonials'), { ssr: false })
 
-export async function getServerSideProps({ req }) {
-  const userAgent = req ? req.headers['user-agent'] : navigator.userAgent;
-  const isMobile = Boolean(userAgent.match(
-    /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
-  ));
-
+// Static generation - pre-render at build time instead of on every request
+export async function getStaticProps() {
+  // Mobile detection moved to client-side for static generation
+  // This allows the page to be cached and served immediately
   return {
     props: {
-      isMobile,
+      isMobile: false, // Will be detected client-side in useEffect
     },
   }
 }

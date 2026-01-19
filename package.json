@@ -4,7 +4,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "test:perf": "playwright test",
+    "test:perf:headed": "playwright test --headed",
+    "test:perf:report": "playwright show-report test-results/html"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
@@ -40,6 +43,7 @@
     "three": "^0.160.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.57.0",
     "@prisma/client": "^5.19.0",
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",

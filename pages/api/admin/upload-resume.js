@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     try {
         const form = formidable({
             keepExtensions: true,
-            maxFileSize: 5 * 1024 * 1024, // 5MB
+            maxFileSize: 10 * 1024 * 1024, // 10MB (increased from 5MB)
         });
 
         const [fields, files] = await form.parse(req);
@@ -28,15 +28,35 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'No resume file uploaded' });
         }
 
+        // Validate file type - accept PDF, DOCX, DOC
+        const allowedTypes = [
+            'application/pdf',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document', // .docx
+            'application/msword', // .doc
+        ];
+
+        const allowedExtensions = ['.pdf', '.docx', '.doc'];
+        const fileExtension = file.originalFilename?.toLowerCase().match(/\.[^.]+$/)?.[0] || '';
+
+        if (!allowedTypes.includes(file.mimetype) && !allowedExtensions.includes(fileExtension)) {
+            return res.status(400).json({
+                error: 'Invalid file type. Only PDF, DOCX, and DOC files are allowed.',
+                received: file.mimetype
+            });
+        }
+
         // Read file buffer
         const fileBuffer = fs.readFileSync(file.filepath);
+
+        // Determine file extension for storage
+        const storageFilename = `resume${fileExtension}`;
 
         // Upload to Supabase Storage
         const { data, error } = await supabase
             .storage
             .from('portfolio-assets')
-            .upload('resume.pdf', fileBuffer, {
-                contentType: 'application/pdf',
+            .upload(storageFilename, fileBuffer, {
+                contentType: file.mimetype,
                 upsert: true
             });
 
@@ -49,14 +69,15 @@ export default async function handler(req, res) {
         const { data: publicUrlData } = supabase
             .storage
             .from('portfolio-assets')
-            .getPublicUrl('resume.pdf');
+            .getPublicUrl(storageFilename);
 
         // Cleanup temp file
         try { fs.unlinkSync(file.filepath); } catch (e) { }
 
         res.status(200).json({
             message: 'Resume uploaded successfully!',
-            url: publicUrlData.publicUrl
+            url: publicUrlData.publicUrl,
+            filename: storageFilename
         });
 
     } catch (error) {

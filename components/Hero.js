@@ -20,11 +20,11 @@ export default function Hero({ isMobile: isMobileSSR }) {
     checkMobile();
     window.addEventListener('resize', checkMobile);
 
-    // 3 second delay for good Lighthouse score
-    const timer = setTimeout(() => setLoadCar(true), 3000);
+    // Load Ferrari immediately after component mounts
+    // Removed artificial 3s delay - it was preventing page from appearing loaded
+    setLoadCar(true);
 
     return () => {
-      clearTimeout(timer);
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
