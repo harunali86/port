@@ -1,6 +1,7 @@
 import { supabase } from '@/lib/supabase';
 
 export default async function handler(req, res) {
+    res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
     try {
         const { data, error } = await supabase
             .storage
@@ -9,8 +10,12 @@ export default async function handler(req, res) {
 
         if (error) throw error;
 
-        // Find the resume file
-        const file = data.find(f => f.name.toLowerCase().startsWith('resume'));
+        // Find the resume file - sort by created_at desc to get the latest
+        const resumeFiles = (data || [])
+            .filter(f => f.name.toLowerCase().startsWith('resume'))
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+        const file = resumeFiles[0];
 
         if (!file) {
             return res.status(200).json({ exists: false });

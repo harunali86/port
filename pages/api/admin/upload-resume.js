@@ -48,18 +48,21 @@ export default async function handler(req, res) {
         // Read file buffer
         const fileBuffer = fs.readFileSync(file.filepath);
 
-        // Determine file extension for storage
-        const storageFilename = `resume${fileExtension}`;
+        // Generate timestamped filename to avoid caching
+        const timestamp = Date.now();
+        const storageFilename = `resume_${timestamp}${fileExtension}`;
 
-        // SIMPLIFICATION: Delete ALL existing resume files first to avoid conflict
+        // Cleanup: Delete ALL existing resume files
         try {
             const { data: existingFiles } = await supabase.storage.from('portfolio-assets').list();
-            const filesToDelete = existingFiles
-                .filter(f => f.name.startsWith('resume'))
-                .map(f => f.name);
+            if (existingFiles?.length) {
+                const filesToDelete = existingFiles
+                    .filter(f => f.name.startsWith('resume'))
+                    .map(f => f.name);
 
-            if (filesToDelete.length > 0) {
-                await supabase.storage.from('portfolio-assets').remove(filesToDelete);
+                if (filesToDelete.length > 0) {
+                    await supabase.storage.from('portfolio-assets').remove(filesToDelete);
+                }
             }
         } catch (e) {
             console.error("Cleanup error (ignorable):", e);

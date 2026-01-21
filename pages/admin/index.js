@@ -37,7 +37,7 @@ export default function AdminDashboard() {
             const [postsRes, statsRes, resumeRes] = await Promise.all([
                 fetch('/api/admin/posts'),
                 fetch('/api/admin/stats'),
-                fetch('/api/admin/get-resume')
+                fetch('/api/admin/get-resume?t=' + Date.now())
             ]);
 
             if (postsRes.ok) setPosts(await postsRes.json());
