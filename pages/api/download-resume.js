@@ -13,14 +13,12 @@ export default async function handler(req, res) {
             return res.status(500).json({ error: 'Failed to access storage' });
         }
 
-        // Find file starting with "resume"
-        // Priority: PDF > DOCX > DOC
-        let file = data.find(f => f.name === 'resume.pdf');
-        if (!file) file = data.find(f => f.name === 'resume.docx');
-        if (!file) file = data.find(f => f.name === 'resume.doc');
+        // Find file starting with "resume" and SORT by created_at desc
+        const resumeFiles = (data || [])
+            .filter(f => f.name.toLowerCase().startsWith('resume'))
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-        // If still not found, try any file with "resume" in name
-        if (!file) file = data.find(f => f.name.toLowerCase().startsWith('resume'));
+        const file = resumeFiles[0];
 
         if (!file) {
             return res.status(404).json({ error: 'Resume not found' });
@@ -31,6 +29,9 @@ export default async function handler(req, res) {
             .storage
             .from('portfolio-assets')
             .getPublicUrl(file.name);
+
+        // Prevent Caching
+        res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 
         // Redirect to the actual file
         res.redirect(publicUrlData.publicUrl);
