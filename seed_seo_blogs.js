@@ -1,8 +1,13 @@
 const { Client } = require('pg');
 
-const connectionString = 'postgresql://postgres.qbrkskutrlbdclhpfdwe:Ruleonthew@1@aws-1-ap-south-1.pooler.supabase.com:5432/postgres';
-
-const client = new Client({ connectionString, ssl: { rejectUnauthorized: false } });
+const client = new Client({
+    user: 'postgres',
+    host: 'db.qbrkskutrlbdclhpfdwe.supabase.co',
+    database: 'postgres',
+    password: 'FoodDeliveryApp1',
+    port: 5432,
+    ssl: { rejectUnauthorized: false }
+});
 
 const blogs = [
     {

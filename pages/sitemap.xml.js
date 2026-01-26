@@ -14,6 +14,21 @@ function generateSiteMap(posts) {
       <url>
        <loc>${EXTERNAL_DATA_URL}/contact</loc>
      </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/hire-full-stack-developer</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/hire-ai-engineer</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/hire-react-developer</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/blog/nextjs-14-server-actions-guide</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/blog/geo-generative-engine-optimization</loc>
+     </url>
      ${posts
       .map(({ slug }) => {
         return `

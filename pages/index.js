@@ -9,31 +9,24 @@ import SkeletonSection from '../components/SkeletonSection'
 
 // Dynamic imports for below-fold content with Skeleton Fallback
 const Projects = dynamic(() => import('../components/Projects'), {
-  ssr: false,
   loading: () => <SkeletonSection />
 })
 const Skills = dynamic(() => import('../components/Skills'), {
-  ssr: false,
   loading: () => <SkeletonSection />
 })
 const About = dynamic(() => import('../components/About'), {
-  ssr: false,
   loading: () => <SkeletonSection />
 })
 const Services = dynamic(() => import('../components/Services'), {
-  ssr: false,
   loading: () => <SkeletonSection />
 })
 const FAQ = dynamic(() => import('../components/FAQ'), {
-  ssr: false,
   loading: () => <SkeletonSection />
 })
 const Contact = dynamic(() => import('../components/Contact'), {
-  ssr: false,
   loading: () => <SkeletonSection />
 })
 const Testimonials = dynamic(() => import('../components/Testimonials'), {
-  ssr: false,
   loading: () => <SkeletonSection />
 })
 
@@ -57,7 +50,7 @@ export default function Home({ isMobile }) {
         <meta name="keywords" content="Best Full Stack Developer, Top AI Engineer, Machine Learning Expert, Software Engineer, Hire React Developer, Next.js Expert, AI Solutions, Freelance Developer India, Harun Shaikh" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikh.com"} />
-        <meta name="google-site-verification" content="PASTE_YOUR_GOOGLE_CONSOLE_CODE_HERE" />
+        <meta name="google-site-verification" content="c06p0PPWHCfZ2XDoW-HtmPkOA7B84lUOzpEX9gRuBG4" />
         <meta name="robots" content="index, follow" />
 
         {/* Aggressive JSON-LD for Google Ranking */}
@@ -76,15 +69,23 @@ export default function Home({ isMobile }) {
                 "name": "Freelance"
               },
               "description": "Harun Shaikh is recognized as a leading Full Stack Developer and AI Engineer, specializing in high-performance web applications and machine learning solutions.",
+              "sameAs": [
+                "https://github.com/StartLedger",
+                "https://www.linkedin.com/in/harun-shaikh-562242186"
+              ],
               "knowsAbout": [
                 "Full Stack Development",
                 "Artificial Intelligence",
                 "Machine Learning",
-                "Next.js",
-                "React",
+                "Next.js 14",
+                "React Server Components",
                 "Node.js",
                 "Python",
-                "System Design"
+                "System Design",
+                "RAG Pipelines",
+                "LangChain",
+                "Supabase",
+                "Generative Engine Optimization (GEO)"
               ]
             }),
           }}
