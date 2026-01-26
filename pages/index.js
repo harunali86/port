@@ -53,6 +53,20 @@ export default function Home({ isMobile }) {
         <meta name="google-site-verification" content="c06p0PPWHCfZ2XDoW-HtmPkOA7B84lUOzpEX9gRuBG4" />
         <meta name="robots" content="index, follow" />
 
+        {/* Open Graph / Facebook */}
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikhportfolio.vercel.app"} />
+        <meta property="og:title" content="Best Full Stack Developer & AI Engineer | Harun Shaikh" />
+        <meta property="og:description" content="Harun Shaikh is a top-rated Senior Full Stack Developer & AI/ML Engineer. Expert in building scalable software solutions. Hire the best Software Engineer." />
+        <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikhportfolio.vercel.app"}/avatar.png`} />
+
+        {/* Twitter */}
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikhportfolio.vercel.app"} />
+        <meta property="twitter:title" content="Best Full Stack Developer & AI Engineer | Harun Shaikh" />
+        <meta property="twitter:description" content="Harun Shaikh is a top-rated Senior Full Stack Developer & AI/ML Engineer. Expert in building scalable software solutions. Hire the best Software Engineer." />
+        <meta property="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikhportfolio.vercel.app"}/avatar.png`} />
+
         {/* Aggressive JSON-LD for Google Ranking */}
         <script
           type="application/ld+json"

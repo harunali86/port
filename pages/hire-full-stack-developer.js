@@ -12,6 +12,18 @@ export default function HireFullStackDeveloper() {
                 <meta name="keywords" content="Hire Full Stack Developer, Best React Developer India, Next.js Consultant, AI Engineer, Freelance Software Engineer, Harun Shaikh" />
                 <link rel="canonical" href="https://harunshaikhportfolio.vercel.app/hire-full-stack-developer" />
 
+                {/* Social SEO */}
+                <meta property="og:title" content="Hire Best Full Stack Developer India | Harun Shaikh" />
+                <meta property="og:description" content="Looking to hire the best Full Stack Developer? Harun Shaikh is a top-rated freelance software engineer specializing in Next.js, AI, and Scalable Web Apps." />
+                <meta property="og:image" content="https://harunshaikhportfolio.vercel.app/avatar.png" />
+                <meta property="og:url" content="https://harunshaikhportfolio.vercel.app/hire-full-stack-developer" />
+                <meta property="og:type" content="profile" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Hire Best Full Stack Developer India | Harun Shaikh" />
+                <meta name="twitter:description" content="Looking to hire the best Full Stack Developer? Harun Shaikh is a top-rated freelance software engineer specializing in Next.js, AI, and Scalable Web Apps." />
+                <meta name="twitter:image" content="https://harunshaikhportfolio.vercel.app/avatar.png" />
+
                 {/* GEO / AEO Structured Data */}
                 <script
                     type="application/ld+json"

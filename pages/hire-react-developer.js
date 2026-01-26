@@ -12,6 +12,18 @@ export default function HireReactDeveloper() {
                 <meta name="keywords" content="Hire React Developer, React.js Expert, Frontend Developer, UI Engineer, React Native Developer, Harun Shaikh" />
                 <link rel="canonical" href="https://harunshaikhportfolio.vercel.app/hire-react-developer" />
 
+                {/* Social SEO */}
+                <meta property="og:title" content="Hire Top React Developer | Harun Shaikh" />
+                <meta property="og:description" content="Looking for a React.js expert? Harun Shaikh builds high-performance, interactive frontends using React, Redux, and Tailwind CSS." />
+                <meta property="og:image" content="https://harunshaikhportfolio.vercel.app/avatar.png" />
+                <meta property="og:url" content="https://harunshaikhportfolio.vercel.app/hire-react-developer" />
+                <meta property="og:type" content="profile" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Hire Top React Developer | Harun Shaikh" />
+                <meta name="twitter:description" content="Looking for a React.js expert? Harun Shaikh builds high-performance, interactive frontends using React, Redux, and Tailwind CSS." />
+                <meta name="twitter:image" content="https://harunshaikhportfolio.vercel.app/avatar.png" />
+
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{

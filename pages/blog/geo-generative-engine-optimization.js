@@ -12,6 +12,20 @@ export default function GeoOptimizationGuide() {
                 <meta name="keywords" content="GEO, Generative Engine Optimization, AI Search, SEO vs GEO, Optimize for ChatGPT, Harun Shaikh" />
                 <link rel="canonical" href="https://harunshaikhportfolio.vercel.app/blog/geo-generative-engine-optimization" />
 
+                {/* Social SEO */}
+                <meta property="og:title" content="What is GEO? Generative Engine Optimization Guide 2025" />
+                <meta property="og:description" content="SEO is dead. Long live GEO. Learn how to optimize your content for AI Search Engines like ChatGPT, Perplexity, and Google Gemini." />
+                <meta property="og:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2532&auto=format&fit=crop" />
+                <meta property="og:url" content="https://harunshaikhportfolio.vercel.app/blog/geo-generative-engine-optimization" />
+                <meta property="og:type" content="article" />
+                <meta property="article:published_time" content="2025-01-22T00:00:00+00:00" />
+                <meta property="article:author" content="Harun Shaikh" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="What is GEO? Generative Engine Optimization Guide 2025" />
+                <meta name="twitter:description" content="SEO is dead. Long live GEO. Learn how to optimize your content for AI Search Engines like ChatGPT, Perplexity, and Google Gemini." />
+                <meta name="twitter:image" content="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2532&auto=format&fit=crop" />
+
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{

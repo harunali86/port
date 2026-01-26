@@ -12,6 +12,18 @@ export default function HireAIEngineer() {
                 <meta name="keywords" content="Hire AI Engineer, Machine Learning Developer, RAG Agent Expert, OpenAI Developer, LangChain Specialist, Harun Shaikh" />
                 <link rel="canonical" href="https://harunshaikhportfolio.vercel.app/hire-ai-engineer" />
 
+                {/* Social SEO */}
+                <meta property="og:title" content="Hire AI Engineer & ML Expert | Harun Shaikh" />
+                <meta property="og:description" content="Need a custom AI solution? Harun Shaikh is an expert AI Engineer specializing in LLMs, RAG Pipelines, and OpenAI integration." />
+                <meta property="og:image" content="https://harunshaikhportfolio.vercel.app/avatar.png" />
+                <meta property="og:url" content="https://harunshaikhportfolio.vercel.app/hire-ai-engineer" />
+                <meta property="og:type" content="profile" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Hire AI Engineer & ML Expert | Harun Shaikh" />
+                <meta name="twitter:description" content="Need a custom AI solution? Harun Shaikh is an expert AI Engineer specializing in LLMs, RAG Pipelines, and OpenAI integration." />
+                <meta name="twitter:image" content="https://harunshaikhportfolio.vercel.app/avatar.png" />
+
                 {/* GEO / AEO Structured Data */}
                 <script
                     type="application/ld+json"

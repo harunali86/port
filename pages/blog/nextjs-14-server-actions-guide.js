@@ -12,6 +12,20 @@ export default function NextJsGuide() {
                 <meta name="keywords" content="Next.js 14, Server Actions, Next.js Tutorial, React Server Components, Full Stack Development" />
                 <link rel="canonical" href="https://harunshaikhportfolio.vercel.app/blog/nextjs-14-server-actions-guide" />
 
+                {/* Social SEO */}
+                <meta property="og:title" content="Next.js 14 Server Actions: The Ultimate Guide for 2025" />
+                <meta property="og:description" content="Master Next.js 14 Server Actions. Learn how to replace API routes with direct server mutations for type-safe, high-performance web apps." />
+                <meta property="og:image" content="https://images.unsplash.com/photo-1618477247222-ac5912453634?q=80&w=2574&auto=format&fit=crop" />
+                <meta property="og:url" content="https://harunshaikhportfolio.vercel.app/blog/nextjs-14-server-actions-guide" />
+                <meta property="og:type" content="article" />
+                <meta property="article:published_time" content="2025-01-20T00:00:00+00:00" />
+                <meta property="article:author" content="Harun Shaikh" />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="Next.js 14 Server Actions: The Ultimate Guide for 2025" />
+                <meta name="twitter:description" content="Master Next.js 14 Server Actions. Learn how to replace API routes with direct server mutations for type-safe, high-performance web apps." />
+                <meta name="twitter:image" content="https://images.unsplash.com/photo-1618477247222-ac5912453634?q=80&w=2574&auto=format&fit=crop" />
+
                 {/* Article Schema */}
                 <script
                     type="application/ld+json"
