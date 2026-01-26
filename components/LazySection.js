@@ -12,7 +12,7 @@ export default function LazySection({ children }) {
                     observer.disconnect();
                 }
             },
-            { rootMargin: '200px' }
+            { rootMargin: '300px' }
         );
 
         if (ref.current) {

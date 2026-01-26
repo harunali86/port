@@ -12,17 +12,12 @@ const Car3D = dynamic(() => import('./Car3D'), {
 export default function Hero({ isMobile: isMobileSSR }) {
   // No preload here - model loads with Car3D component to keep bundle small
 
-  const [loadCar, setLoadCar] = useState(false);
   const [isMobile, setIsMobile] = useState(isMobileSSR);
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener('resize', checkMobile);
-
-    // Load Ferrari immediately after component mounts
-    // Removed artificial 3s delay - it was preventing page from appearing loaded
-    setLoadCar(true);
 
     return () => {
       window.removeEventListener('resize', checkMobile);
@@ -39,15 +34,7 @@ export default function Hero({ isMobile: isMobileSSR }) {
 
       {/* 3D CAR CONTAINER */}
       <div className="absolute inset-0 z-0 opacity-90">
-        {!loadCar && (
-          <div className="w-full h-full flex items-center justify-center">
-            <div className="flex flex-col items-center">
-              <div className="w-6 h-6 border-2 border-[#00ff41] border-t-transparent rounded-full animate-spin mb-2" />
-              <div className="text-[#00ff41] font-mono text-[10px] tracking-widest animate-pulse">INITIALIZING 3D ENGINE...</div>
-            </div>
-          </div>
-        )}
-        {loadCar && <Car3D carColor="#ff0000" isMobile={isMobile} />}
+        <Car3D carColor="#ff0000" isMobile={isMobile} />
       </div>
 
       {/* LEFT SIDE CONTENT - Spacing optimized for mobile to fit Buttons */}
@@ -64,16 +51,15 @@ export default function Hero({ isMobile: isMobileSSR }) {
               <Image src="/portfolio.jpg" alt="Harun Shaikh" fill priority sizes="(max-width: 640px) 180px, 200px" className="object-cover" />
 
               {/* RGB Chromatic Aberration - REDUCED OPACITY & STATIC ON MOBILE */}
-              {!isMobile && (
-                <>
-                  <div className="absolute inset-0 overflow-hidden mix-blend-screen">
-                    <Image src="/portfolio.jpg" alt="" fill priority={false} sizes="200px" className="object-cover opacity-20" style={{ transform: 'translate(-3px, 0)', filter: 'url(#r)' }} />
-                  </div>
-                  <div className="absolute inset-0 overflow-hidden mix-blend-screen">
-                    <Image src="/portfolio.jpg" alt="" fill priority={false} sizes="200px" className="object-cover opacity-10" style={{ transform: 'translate(3px, 0)', filter: 'hue-rotate(180deg)' }} />
-                  </div>
-                </>
-              )}
+              {/* RGB Chromatic Aberration - REDUCED OPACITY & STATIC ON MOBILE */}
+              <div className="hidden md:block">
+                <div className="absolute inset-0 overflow-hidden mix-blend-screen">
+                  <Image src="/portfolio.jpg" alt="" fill priority={false} sizes="200px" className="object-cover opacity-20" style={{ transform: 'translate(-3px, 0)', filter: 'url(#r)' }} />
+                </div>
+                <div className="absolute inset-0 overflow-hidden mix-blend-screen">
+                  <Image src="/portfolio.jpg" alt="" fill priority={false} sizes="200px" className="object-cover opacity-10" style={{ transform: 'translate(3px, 0)', filter: 'hue-rotate(180deg)' }} />
+                </div>
+              </div>
 
               {/* Horizontal Interference Lines - Optimized */}
               <m.div
@@ -97,17 +83,16 @@ export default function Hero({ isMobile: isMobileSSR }) {
               />
 
               {/* Signal Noise/Static - REDUCED */}
-              {!isMobile && (
-                <m.div
-                  className="absolute inset-0 pointer-events-none opacity-[0.1]"
-                  animate={{ opacity: [0.05, 0.1, 0.05] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                  style={{
-                    backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.5\'/%3E%3C/svg%3E")',
-                    willChange: 'opacity'
-                  }}
-                />
-              )}
+              {/* Signal Noise/Static - REDUCED */}
+              <m.div
+                className="hidden md:block absolute inset-0 pointer-events-none opacity-[0.1]"
+                animate={{ opacity: [0.05, 0.1, 0.05] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                style={{
+                  backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.5\'/%3E%3C/svg%3E")',
+                  willChange: 'opacity'
+                }}
+              />
 
               {/* Signal Glitch Flash */}
               <m.div
@@ -117,34 +102,32 @@ export default function Hero({ isMobile: isMobileSSR }) {
               />
 
               {/* GLITCH DISPLACEMENT - DESKTOP ONLY */}
-              {!isMobile && (
-                <m.div
-                  className="absolute inset-0 overflow-hidden pointer-events-none"
-                  animate={{
-                    clipPath: [
-                      'inset(0% 0% 100% 0%)',
-                      'inset(40% 0% 50% 0%)',
-                      'inset(0% 0% 100% 0%)',
-                    ]
-                  }}
-                  transition={{ duration: 5, repeat: Infinity, times: [0, 0.05, 0.1] }}
-                >
-                  <div className="w-full h-full bg-[#00ff00]/20" style={{ transform: 'translateX(5px)' }} />
-                </m.div>
-              )}
+              {/* GLITCH DISPLACEMENT - DESKTOP ONLY */}
+              <m.div
+                className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none"
+                animate={{
+                  clipPath: [
+                    'inset(0% 0% 100% 0%)',
+                    'inset(40% 0% 50% 0%)',
+                    'inset(0% 0% 100% 0%)',
+                  ]
+                }}
+                transition={{ duration: 5, repeat: Infinity, times: [0, 0.05, 0.1] }}
+              >
+                <div className="w-full h-full bg-[#00ff00]/20" style={{ transform: 'translateX(5px)' }} />
+              </m.div>
 
               {/* DISTORTION SHAKE - DESKTOP ONLY */}
-              {!isMobile && (
-                <m.div
-                  className="absolute inset-0 pointer-events-none"
-                  animate={{
-                    x: [0, -2, 2, 0],
-                  }}
-                  transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 3 }}
-                >
-                  <Image src="/portfolio.jpg" alt="" fill priority={false} sizes="200px" className="object-cover opacity-10 mix-blend-difference" />
-                </m.div>
-              )}
+              {/* DISTORTION SHAKE - DESKTOP ONLY */}
+              <m.div
+                className="hidden md:block absolute inset-0 pointer-events-none"
+                animate={{
+                  x: [0, -2, 2, 0],
+                }}
+                transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 3 }}
+              >
+                <Image src="/portfolio.jpg" alt="" fill priority={false} sizes="200px" className="object-cover opacity-10 mix-blend-difference" />
+              </m.div>
 
               {/* SIGNAL DROP - Random blackout */}
               <m.div

@@ -5,14 +5,37 @@ import Hero from '../components/Hero'
 import Footer from '../components/Footer'
 import LazySection from '../components/LazySection'
 
-// Dynamic imports for below-fold content
-const Projects = dynamic(() => import('../components/Projects'), { ssr: false })
-const Skills = dynamic(() => import('../components/Skills'), { ssr: false })
-const About = dynamic(() => import('../components/About'), { ssr: false })
-const Services = dynamic(() => import('../components/Services'), { ssr: false })
-const FAQ = dynamic(() => import('../components/FAQ'), { ssr: false })
-const Contact = dynamic(() => import('../components/Contact'), { ssr: false })
-const Testimonials = dynamic(() => import('../components/Testimonials'), { ssr: false })
+import SkeletonSection from '../components/SkeletonSection'
+
+// Dynamic imports for below-fold content with Skeleton Fallback
+const Projects = dynamic(() => import('../components/Projects'), {
+  ssr: false,
+  loading: () => <SkeletonSection />
+})
+const Skills = dynamic(() => import('../components/Skills'), {
+  ssr: false,
+  loading: () => <SkeletonSection />
+})
+const About = dynamic(() => import('../components/About'), {
+  ssr: false,
+  loading: () => <SkeletonSection />
+})
+const Services = dynamic(() => import('../components/Services'), {
+  ssr: false,
+  loading: () => <SkeletonSection />
+})
+const FAQ = dynamic(() => import('../components/FAQ'), {
+  ssr: false,
+  loading: () => <SkeletonSection />
+})
+const Contact = dynamic(() => import('../components/Contact'), {
+  ssr: false,
+  loading: () => <SkeletonSection />
+})
+const Testimonials = dynamic(() => import('../components/Testimonials'), {
+  ssr: false,
+  loading: () => <SkeletonSection />
+})
 
 // Static generation - pre-render at build time instead of on every request
 export async function getStaticProps() {

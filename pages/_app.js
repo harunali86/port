@@ -7,7 +7,8 @@ import dynamic from 'next/dynamic';
 
 // Dynamic imports for non-critical components
 // Removed SmoothScroll - it was blocking initial render
-const Preloader = dynamic(() => import('../components/Preloader'), { ssr: false });
+// Dynamic imports for non-critical components
+// Removed SmoothScroll - it was blocking initial render
 const WhatsAppButton = dynamic(() => import('../components/WhatsAppButton'), { ssr: false });
 const SoundToggle = dynamic(() => import('../components/SoundToggle'), { ssr: false });
 
@@ -32,7 +33,6 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 function MyApp({ Component, pageProps, router }) {
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // Track Visit (Once per session)
@@ -50,16 +50,11 @@ function MyApp({ Component, pageProps, router }) {
     <LazyMotion features={domAnimation}>
       {/* Removed SmoothScroll wrapper - native scroll is fast enough */}
       <div className={`${inter.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} font-sans`}>
-        {/* Preloader - AnimatePresence handles the exit */}
-        <AnimatePresence mode="wait">
-          {isLoading && <Preloader onComplete={() => setIsLoading(false)} />}
-        </AnimatePresence>
-
         {/* WhatsApp Floating Button */}
-        {!isLoading && <WhatsAppButton />}
+        <WhatsAppButton />
 
         {/* Sound Toggle Button */}
-        {!isLoading && <SoundToggle />}
+        <SoundToggle />
 
 
         {/* Main Content - Always rendered behind preloader for fast LCP */}
