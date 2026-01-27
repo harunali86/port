@@ -15,14 +15,14 @@ export default function HireFullStackDeveloper() {
                 {/* Social SEO */}
                 <meta property="og:title" content="Hire Best Full Stack Developer India | Harun Shaikh" />
                 <meta property="og:description" content="Looking to hire the best Full Stack Developer? Harun Shaikh is a top-rated freelance software engineer specializing in Next.js, AI, and Scalable Web Apps." />
-                <meta property="og:image" content="https://harunshaikhportfolio.vercel.app/avatar.png" />
+                <meta property="og:image" content="https://harunshaikhportfolio.vercel.app/og-image.png" />
                 <meta property="og:url" content="https://harunshaikhportfolio.vercel.app/hire-full-stack-developer" />
                 <meta property="og:type" content="profile" />
 
                 <meta name="twitter:card" content="summary_large_image" />
                 <meta name="twitter:title" content="Hire Best Full Stack Developer India | Harun Shaikh" />
                 <meta name="twitter:description" content="Looking to hire the best Full Stack Developer? Harun Shaikh is a top-rated freelance software engineer specializing in Next.js, AI, and Scalable Web Apps." />
-                <meta name="twitter:image" content="https://harunshaikhportfolio.vercel.app/avatar.png" />
+                <meta name="twitter:image" content="https://harunshaikhportfolio.vercel.app/og-image.png" />
 
                 {/* GEO / AEO Structured Data */}
                 <script
