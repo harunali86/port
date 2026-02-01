@@ -235,6 +235,11 @@ export default function Hero({ isMobile: isMobileSSR }) {
           <span className="font-mono text-sm sm:text-base text-[#00ff00] font-bold tracking-wider">SENIOR FULL STACK DEVELOPER</span>
         </div>
 
+        {/* TAGLINE */}
+        <p className="text-white text-sm sm:text-base mb-6 max-w-md leading-relaxed bg-black/90 backdrop-blur-sm py-2 px-3 rounded">
+          Building scalable web applications with modern technologies. Turning ideas into powerful digital experiences.
+        </p>
+
         {/* DESCRIPTION - Terminal Style */}
         <div className="font-mono text-sm sm:text-base text-[#00ff00]/90 mb-4 pl-4 border-l-2 border-[#00ff00]/60 space-y-2 bg-black/80 backdrop-blur-sm py-3 pr-3 rounded-r pointer-events-auto">
           <p className="flex items-center gap-2"><span className="text-white/50">$</span> experience --years <span className="text-white font-bold">3+</span></p>
