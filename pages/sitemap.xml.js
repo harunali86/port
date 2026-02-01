@@ -29,6 +29,24 @@ function generateSiteMap(posts) {
      <url>
        <loc>${EXTERNAL_DATA_URL}/blog/geo-generative-engine-optimization</loc>
      </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/hire-nodejs-developer</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/hire-python-developer</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/hire-nextjs-expert</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/blog/ai-agents-langchain-tutorial</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/blog/optimizing-nextjs-performance</loc>
+     </url>
+     <url>
+       <loc>${EXTERNAL_DATA_URL}/blog/modern-web-development-trends-2026</loc>
+     </url>
      ${posts
       .map(({ slug }) => {
         return `

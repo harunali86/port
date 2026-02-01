@@ -45,9 +45,9 @@ export default function Home({ isMobile }) {
   return (
     <>
       <Head>
-        <title>Best Full Stack Developer & AI Engineer | Harun Shaikh</title>
-        <meta name="description" content="Harun Shaikh is a top-rated Senior Full Stack Developer & AI/ML Engineer. Expert in building scalable software solutions. Hire the best Software Engineer." />
-        <meta name="keywords" content="Best Full Stack Developer, Top AI Engineer, Machine Learning Expert, Software Engineer, Hire React Developer, Next.js Expert, AI Solutions, Freelance Developer India, Harun Shaikh" />
+        <title>Harun Shaikh | Best Full Stack Developer & AI Engineer Portfolio | HarunShaikh</title>
+        <meta name="description" content="Harun Shaikh (HarunShaikh) - India's Top Full Stack Developer & AI Engineer. Expert in React, Next.js, Node.js, Python, Machine Learning. Hire the best IT professional for your project. View Harun Shaikh's Portfolio." />
+        <meta name="keywords" content="Harun Shaikh, HarunShaikh, Harun Shaikh Portfolio, Full Stack Developer, AI Engineer, Best Full Stack Developer India, Top AI Engineer, Machine Learning Expert, Software Engineer, Hire React Developer, Next.js Expert, Node.js Developer, Python Developer, IT Professional, Freelance Developer India, Web Developer Mumbai, AI Solutions, Portfolio Website, Harun Developer, Shaikh Developer" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <link rel="canonical" href={process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikh.com"} />
         <meta name="google-site-verification" content="c06p0PPWHCfZ2XDoW-HtmPkOA7B84lUOzpEX9gRuBG4" />
@@ -56,15 +56,15 @@ export default function Home({ isMobile }) {
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content={process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikhportfolio.vercel.app"} />
-        <meta property="og:title" content="Best Full Stack Developer & AI Engineer | Harun Shaikh" />
-        <meta property="og:description" content="Harun Shaikh is a top-rated Senior Full Stack Developer & AI/ML Engineer. Expert in building scalable software solutions. Hire the best Software Engineer." />
+        <meta property="og:title" content="Harun Shaikh | Best Full Stack Developer & AI Engineer Portfolio" />
+        <meta property="og:description" content="Harun Shaikh (HarunShaikh) - India's Top Full Stack Developer & AI Engineer. Expert in React, Next.js, Python, Machine Learning. View Portfolio & Hire." />
         <meta property="og:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikhportfolio.vercel.app"}/og-image.png`} />
 
         {/* Twitter */}
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content={process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikhportfolio.vercel.app"} />
-        <meta property="twitter:title" content="Best Full Stack Developer & AI Engineer | Harun Shaikh" />
-        <meta property="twitter:description" content="Harun Shaikh is a top-rated Senior Full Stack Developer & AI/ML Engineer. Expert in building scalable software solutions. Hire the best Software Engineer." />
+        <meta property="twitter:title" content="Harun Shaikh | Best Full Stack Developer & AI Engineer Portfolio" />
+        <meta property="twitter:description" content="Harun Shaikh (HarunShaikh) - India's Top Full Stack Developer & AI Engineer. Expert in React, Next.js, Python, Machine Learning. View Portfolio & Hire." />
         <meta property="twitter:image" content={`${process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikhportfolio.vercel.app"}/og-image.png`} />
 
         {/* Aggressive JSON-LD for Google Ranking */}
@@ -75,9 +75,11 @@ export default function Home({ isMobile }) {
               "@context": "https://schema.org",
               "@type": "Person",
               "name": "Harun Shaikh",
+              "alternateName": ["HarunShaikh", "Harun Developer", "Harun AI Engineer", "Harun Full Stack Developer"],
               "url": process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikh.com",
               "image": `${process.env.NEXT_PUBLIC_SITE_URL || "https://harunshaikh.com"}/avatar.png`,
               "jobTitle": "Senior Full Stack Developer & AI Engineer",
+              "nationality": "Indian",
               "worksFor": {
                 "@type": "Organization",
                 "name": "Freelance"
@@ -99,8 +101,31 @@ export default function Home({ isMobile }) {
                 "RAG Pipelines",
                 "LangChain",
                 "Supabase",
-                "Generative Engine Optimization (GEO)"
-              ]
+                "Generative Engine Optimization (GEO)",
+                "TypeScript",
+                "PostgreSQL",
+                "MongoDB",
+                "Docker",
+                "AWS",
+                "TensorFlow",
+                "OpenAI API",
+                "Web Scraping",
+                "API Development",
+                "REST APIs",
+                "GraphQL",
+                "Tailwind CSS",
+                "Prisma ORM",
+                "Redis",
+                "CI/CD",
+                "Vercel",
+                "Firebase",
+                "React Native"
+              ],
+              "hasCredential": {
+                "@type": "EducationalOccupationalCredential",
+                "credentialCategory": "Professional Experience",
+                "name": "5+ Years Full Stack Development"
+              }
             }),
           }}
         />
