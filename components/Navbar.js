@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import Link from "next/link";
+import Image from "next/image";
 
 // Custom Harun Logo
 function HarunLogo({ variant = "default" }) {
@@ -202,16 +203,16 @@ export default function Navbar() {
               <div className="moveLink absolute flex text-black top-0 left-0 w-full h-full items-center bg-[#D3FD50] overflow-hidden pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="moveX flex items-center shrink-0">
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">VIEW WORK</span>
-                  <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=300&q=80" alt="UI" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=300&q=80" alt="UI" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">VIEW WORK</span>
-                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80" alt="Art" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80" alt="Art" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">VIEW WORK</span>
                 </div>
                 <div className="moveX flex items-center shrink-0">
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">VIEW WORK</span>
-                  <img src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=300&q=80" alt="UI" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1600607686527-6fb886090705?auto=format&fit=crop&w=300&q=80" alt="UI" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">VIEW WORK</span>
-                  <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80" alt="Art" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=300&q=80" alt="Art" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">VIEW WORK</span>
                 </div>
               </div>
@@ -227,15 +228,15 @@ export default function Navbar() {
               <div className="moveLink absolute flex text-black top-0 left-0 w-full h-full items-center bg-[#D3FD50] overflow-hidden pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="moveX flex items-center shrink-0">
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">ALL SERVICES</span>
-                  <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=300&q=80" alt="Office" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=300&q=80" alt="Office" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">ALL SERVICES</span>
-                  <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=300&q=80" alt="Strategy" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=300&q=80" alt="Strategy" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                 </div>
                 <div className="moveX flex items-center shrink-0">
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">ALL SERVICES</span>
-                  <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=300&q=80" alt="Office" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=300&q=80" alt="Office" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">ALL SERVICES</span>
-                  <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=300&q=80" alt="Strategy" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=300&q=80" alt="Strategy" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                 </div>
               </div>
             </div>
@@ -250,15 +251,15 @@ export default function Navbar() {
               <div className="moveLink absolute flex text-black top-0 left-0 w-full h-full items-center bg-[#D3FD50] overflow-hidden pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="moveX flex items-center shrink-0">
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">CONTACT ME</span>
-                  <img src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=300&q=80" alt="Phone" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=300&q=80" alt="Phone" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">CONTACT ME</span>
-                  <img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=300&q=80" alt="Email" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=300&q=80" alt="Email" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                 </div>
                 <div className="moveX flex items-center shrink-0">
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">CONTACT ME</span>
-                  <img src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=300&q=80" alt="Phone" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1596524430615-b46475ddff6e?auto=format&fit=crop&w=300&q=80" alt="Phone" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-7xl uppercase leading-none px-4">CONTACT ME</span>
-                  <img src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=300&q=80" alt="Email" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=300&q=80" alt="Email" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                 </div>
               </div>
             </div>
@@ -273,15 +274,15 @@ export default function Navbar() {
               <div className="moveLink absolute flex text-black top-0 left-0 w-full h-full items-center bg-[#D3FD50] overflow-hidden pointer-events-none z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <div className="moveX flex items-center shrink-0">
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">READ MORE</span>
-                  <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=300&q=80" alt="Writing" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=300&q=80" alt="Writing" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">READ MORE</span>
-                  <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=300&q=80" alt="Coffee" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=300&q=80" alt="Coffee" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                 </div>
                 <div className="moveX flex items-center shrink-0">
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">READ MORE</span>
-                  <img src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=300&q=80" alt="Writing" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?auto=format&fit=crop&w=300&q=80" alt="Writing" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                   <span className="font-black text-5xl lg:text-8xl uppercase leading-none px-4">READ MORE</span>
-                  <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=300&q=80" alt="Coffee" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
+                  <Image src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?auto=format&fit=crop&w=300&q=80" alt="Coffee" width={160} height={80} sizes="(min-width: 1024px) 160px, 128px" className="h-16 w-32 lg:h-20 lg:w-40 object-cover rounded-full mx-4" />
                 </div>
               </div>
             </div>

@@ -5,6 +5,9 @@ import { Environment, ContactShadows, useGLTF, Lightformer, OrbitControls, Html 
 import * as THREE from 'three';
 
 function FerrariFFXK({ isMobile, controlsRef, ...props }) {
+    // Explicitly set Draco path to Google CDN to prevent "Failed to fetch" errors from default sources
+    useGLTF.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.6/');
+
     // Uses compressed model for 50% faster load
     const { scene } = useGLTF('/models/ferrari_compressed.glb');
     const carRef = useRef();
@@ -282,7 +285,6 @@ export default function Car3D({ isMobile }) {
     // Mobile adjustments - AGGRESSIVE
     const carScale = isMobile ? 40 : 58; // Slightly smaller for mobile
     const carPosition = isMobile ? [0, -1.5, 0] : [0, -1.0, 0.5]; // Visible in viewport
-    const shadowRes = isMobile ? 128 : 256; // Optimized shadows (256 is enough)
 
     // Controls ref for manual interaction
     const controlsRef = useRef();
@@ -292,7 +294,7 @@ export default function Car3D({ isMobile }) {
             width: '100%',
             height: '100%',
             position: 'relative',
-            touchAction: 'none',   // Prevent scroll
+            touchAction: 'pan-y',  // Allow vertical scroll while still enabling pointer interactions
             userSelect: 'none',    // Prevent text selection
             WebkitUserSelect: 'none',
             WebkitTouchCallout: 'none' // Prevent iOS tap callouts
@@ -301,16 +303,15 @@ export default function Car3D({ isMobile }) {
             <SoundButton />
 
             <Canvas
-                shadows={!isMobile} // Disable shadows globally on mobile
-                dpr={isMobile ? 0.6 : [1, 1.5]} // AGGRESSIVE OPTIMIZATION: 0.6x resolution on mobile (crisp enough on small screens, huge perf gain)
+                shadows={!isMobile} // Restore shadows
+                dpr={[1, 1.5]} // Restore resolution (1.5x max for crispness)
                 camera={{ position: [0, 0.5, 8.5], fov: 50 }}
                 gl={{
-                    antialias: !isMobile, // Disable MSAA on mobile for raw speed
+                    antialias: true, // Restore AA for smooth edges
                     alpha: true,
                     toneMapping: THREE.ACESFilmicToneMapping,
                     toneMappingExposure: 1.2,
-                    powerPreference: "high-performance",
-                    precision: isMobile ? "lowp" : "mediump" // Force low precision shaders on mobile
+                    powerPreference: "default",
                 }}
             >
                 <Suspense fallback={
@@ -326,7 +327,7 @@ export default function Car3D({ isMobile }) {
                         makeDefault
                         enableZoom={false}
                         enablePan={false}
-                        enableRotate={false} // Disable canvas drag - we manage this manually via car mesh
+                        enableRotate={false}
                         enableDamping={true}
                         dampingFactor={0.08}
                         autoRotate={true}
@@ -344,13 +345,13 @@ export default function Car3D({ isMobile }) {
                     {/* Pass logic-driven props to the car, including controlsRef */}
                     <FerrariFFXK position={carPosition} scale={carScale} rotation={[0, -Math.PI * 0.9, 0]} isMobile={isMobile} controlsRef={controlsRef} />
 
-                    {/* Shadows are KILLING the mobile score. Disable them. */}
+                    {/* Restore Shadows (Optimized) */}
                     {!isMobile && (
                         <ContactShadows
-                            resolution={shadowRes}
+                            resolution={256} // Keep low res for perf
                             scale={isMobile ? 30 : 80}
-                            blur={isMobile ? 2 : 1.5}
-                            opacity={isMobile ? 0.6 : 0.8}
+                            blur={1.5}
+                            opacity={0.6}
                             far={100}
                             color="#000000"
                         />

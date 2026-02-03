@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import Image from 'next/image';
 
 export default function LangChainGuide() {
     return (
@@ -18,7 +19,14 @@ export default function LangChainGuide() {
                     <h1 className="text-5xl font-bold mb-8">Building Autonomous AI Agents with LangChain: A Complete Guide</h1>
                     <p className="text-gray-400 text-sm mb-12 uppercase tracking-widest">Published Feb 2, 2026 • 15 min read</p>
 
-                    <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200&h=600" alt="AI Neural Network" className="rounded-3xl mb-12 object-cover w-full h-[400px]" />
+                    <Image
+                        src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200&h=600"
+                        alt="AI Neural Network"
+                        width={1200}
+                        height={600}
+                        sizes="(max-width: 768px) 100vw, 896px"
+                        className="rounded-3xl mb-12 object-cover w-full h-[400px]"
+                    />
 
                     <p>
                         The world of AI is moving beyond simple chat interfaces. We are now entering the era of <strong>Autonomous Agents</strong>—systems that can think, plan, and execute tasks independently. In this guide, I'll show you how to build a production-ready agent using LangChain.

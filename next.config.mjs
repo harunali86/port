@@ -2,12 +2,28 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
+    formats: ['image/avif', 'image/webp'], // Use modern AVIF format (20% smaller than WebP)
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
       },
     ],
+  },
+  // Strict caching for static assets
+  async headers() {
+    return [
+      {
+        source: '/:all*(svg|jpg|png|glb|woff2)',
+        locale: false,
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
+    ];
   },
   compress: true, // Enable Gzip/Brotli compression
   swcMinify: true, // Use SWC for minification

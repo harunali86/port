@@ -82,27 +82,14 @@ export default function Hero({ isMobile: isMobileSSR }) {
                 style={{ willChange: 'transform' }}
               />
 
-              {/* Signal Noise/Static - REDUCED */}
-              {/* Signal Noise/Static - REDUCED */}
+              {/* Signal Glitch Flash - Restored (Lightweight) */}
               <m.div
-                className="hidden md:block absolute inset-0 pointer-events-none opacity-[0.1]"
-                animate={{ opacity: [0.05, 0.1, 0.05] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                style={{
-                  backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\' opacity=\'0.5\'/%3E%3C/svg%3E")',
-                  willChange: 'opacity'
-                }}
-              />
-
-              {/* Signal Glitch Flash */}
-              <m.div
-                className="absolute inset-0 bg-[#00ff00]/30 pointer-events-none"
-                animate={{ opacity: [0, 0, 0, 0.5, 0, 0, 0, 0, 0.3, 0] }}
+                className="absolute inset-0 bg-[#00ff00]/20 pointer-events-none"
+                animate={{ opacity: [0, 0, 0, 0.3, 0, 0, 0, 0, 0.1, 0] }}
                 transition={{ duration: 4, repeat: Infinity }}
               />
 
-              {/* GLITCH DISPLACEMENT - DESKTOP ONLY */}
-              {/* GLITCH DISPLACEMENT - DESKTOP ONLY */}
+              {/* GLITCH DISPLACEMENT - Restored (Desktop Only) */}
               <m.div
                 className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none"
                 animate={{
@@ -117,45 +104,10 @@ export default function Hero({ isMobile: isMobileSSR }) {
                 <div className="w-full h-full bg-[#00ff00]/20" style={{ transform: 'translateX(5px)' }} />
               </m.div>
 
-              {/* DISTORTION SHAKE - DESKTOP ONLY */}
-              {/* DISTORTION SHAKE - DESKTOP ONLY */}
-              <m.div
-                className="hidden md:block absolute inset-0 pointer-events-none"
-                animate={{
-                  x: [0, -2, 2, 0],
-                }}
-                transition={{ duration: 0.5, repeat: Infinity, repeatDelay: 3 }}
-              >
-                <Image src="/portfolio.jpg" alt="" fill priority={false} sizes="200px" className="object-cover opacity-10 mix-blend-difference" />
-              </m.div>
+              {/* RGB SHIFT - Simplified */}
+              <div className="absolute inset-0 bg-gradient-to-r from-red-500/10 via-transparent to-cyan-500/10 pointer-events-none mix-blend-screen" />
 
-              {/* SIGNAL DROP - Random blackout */}
-              <m.div
-                className="absolute inset-0 bg-black pointer-events-none"
-                animate={{ opacity: [0, 0, 0, 0, 0, 0, 0, 0.9, 0, 0, 0] }}
-                transition={{ duration: 5, repeat: Infinity }}
-              />
-
-              {/* RGB SHIFT ON GLITCH - Optimized for mobile */}
-              {isMobile ? (
-                // Mobile: CSS-only glitch effect (no extra image load)
-                <m.div
-                  className="absolute inset-0 bg-gradient-to-r from-red-500/20 via-transparent to-cyan-500/20 pointer-events-none mix-blend-screen"
-                  animate={{ opacity: [0, 0.3, 0] }}
-                  transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
-                />
-              ) : (
-                // Desktop: Full RGB shift with image
-                <m.div
-                  className="absolute inset-0 overflow-hidden pointer-events-none mix-blend-screen"
-                  animate={{ x: [0, 5, -5, 0], opacity: [0, 0.4, 0.4, 0] }}
-                  transition={{ duration: 0.2, repeat: Infinity, repeatDelay: 2 }}
-                >
-                  <Image src="/portfolio.jpg" alt="" fill sizes="200px" className="object-cover" style={{ filter: 'hue-rotate(120deg) saturate(3)' }} />
-                </m.div>
-              )}
-
-              {/* SIGNAL LOST text - occasional flash */}
+              {/* SIGNAL LOST text - Restored */}
               <m.div
                 className="absolute inset-0 flex items-center justify-center pointer-events-none"
                 animate={{ opacity: [0, 0, 0, 0, 0, 0, 0, 1, 0, 0] }}
@@ -236,12 +188,12 @@ export default function Hero({ isMobile: isMobileSSR }) {
         </div>
 
         {/* TAGLINE */}
-        <p className="text-white text-sm sm:text-base mb-6 max-w-md leading-relaxed bg-black/90 backdrop-blur-sm py-2 px-3 rounded">
+        <p className="text-white text-sm sm:text-base mb-6 max-w-md leading-relaxed py-2 px-3 rounded drop-shadow-lg">
           Building scalable web applications with modern technologies. Turning ideas into powerful digital experiences.
         </p>
 
         {/* DESCRIPTION - Terminal Style */}
-        <div className="font-mono text-sm sm:text-base text-[#00ff00]/90 mb-4 pl-4 border-l-2 border-[#00ff00]/60 space-y-2 bg-black/80 backdrop-blur-sm py-3 pr-3 rounded-r pointer-events-auto">
+        <div className="font-mono text-sm sm:text-base text-[#00ff00]/90 mb-4 pl-4 border-l-2 border-[#00ff00]/60 space-y-2 py-3 pr-3 rounded-r pointer-events-auto drop-shadow-lg">
           <p className="flex items-center gap-2"><span className="text-white/50">$</span> experience --years <span className="text-white font-bold">3+</span></p>
           <p className="flex items-center gap-2"><span className="text-white/50">$</span> skills --list <span className="text-white font-bold">"React, Node.js, Next.js, Python"</span></p>
           <p className="flex items-center gap-2"><span className="text-white/50">$</span> status --available <span className="text-emerald-400 font-bold">true</span></p>

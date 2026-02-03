@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /admin
-Sitemap: https://harunshaikhportfolio.vercel.app/sitemap.xml
+Sitemap: https://harunshaikh.com/sitemap.xml
