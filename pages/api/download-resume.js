@@ -30,14 +30,48 @@ export default async function handler(req, res) {
             .from('portfolio-assets')
             .getPublicUrl(file.name);
 
-        // Prevent Caching
+        const fileUrl = publicUrlData.publicUrl;
+
+        // FETCH FILE SERVER-SIDE (Hide Origin)
+        const fileResponse = await fetch(fileUrl);
+
+        if (!fileResponse.ok) {
+            throw new Error(`Failed to fetch file from storage: ${fileResponse.statusText}`);
+        }
+
+        // Set Headers for Download
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename="${file.name}"`);
         res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
 
-        // Redirect to the actual file
-        res.redirect(publicUrlData.publicUrl);
+        // STREAM FILE TO USER
+        // This pipes the data directly, so user only sees YOUR domain
+        const reader = fileResponse.body.getReader();
+        const stream = new ReadableStream({
+            start(controller) {
+                return pump();
+                function pump() {
+                    return reader.read().then(({ done, value }) => {
+                        if (done) {
+                            controller.close();
+                            return;
+                        }
+                        controller.enqueue(value);
+                        return pump();
+                    });
+                }
+            }
+        });
+
+        // Convert web stream to node stream for Next.js API
+        const { Readable } = require('stream');
+        const nodeStream = Readable.fromWeb(fileResponse.body);
+        nodeStream.pipe(res);
 
     } catch (err) {
         console.error('Download handler error:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
 }
